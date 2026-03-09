@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Siparişlerim | FitMarket{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1>📦 Siparişlerim</h1>
+  </div>
+</div>
+
+<div class="container section-sm">
+  <div class="profile-layout">
+    <div class="profile-sidebar">
+      <div class="profile-avatar">{{ (current_user.first_name or current_user.username)[0].upper() }}</div>
+      <h3 style="margin-bottom:4px;">{{ current_user.full_name }}</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem;">{{ current_user.email }}</p>
+      <div class="divider"></div>
+      <nav style="display:flex; flex-direction:column; gap:4px; text-align:left;">
+        <a href="{{ url_for('profile.profile') }}" class="admin-nav-item">👤 Profil Bilgileri</a>
+        <a href="{{ url_for('profile.orders') }}" class="admin-nav-item active">📦 Siparişlerim</a>
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin.dashboard') }}" class="admin-nav-item">⚙️ Admin Panel</a>
+        {% endif %}
+        <a href="{{ url_for('auth.logout') }}" class="admin-nav-item" style="color:var(--danger);">🚪 Çıkış</a>
+      </nav>
+    </div>
+
+    <div>
+      {% if orders %}
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        {% for order in orders %}
+        <div class="card">
+          <div class="card-body">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:8px;">
+              <div>
+                <strong>Sipariş #{{ order.id }}</strong>
+                <span style="color:var(--text-muted); font-size:0.85rem; margin-left:12px;">{{ order.created_at.strftime('%d.%m.%Y') }}</span>
+              </div>
+              <span class="badge badge-{{ order.status_label[1] }}">{{ order.status_label[0] }}</span>
+            </div>
+            {% for item in order.items %}
+            <div class="summary-row" style="font-size:0.9rem;">
+              <span>{{ item.product_name }} × {{ item.quantity }}</span>
+              <span>{{ "%.2f"|format(item.subtotal) }}₺</span>
+            </div>
+            {% endfor %}
+            <div class="divider" style="margin:12px 0;"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong>Toplam: <span style="color:var(--accent);">{{ "%.2f"|format(order.total_price) }}₺</span></strong>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <div class="empty-icon">📦</div>
+        <h3>Henüz sipariş vermediniz</h3>
+        <a href="{{ url_for('products.list_products') }}" class="btn btn-accent mt-3">Alışverişe Başla</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

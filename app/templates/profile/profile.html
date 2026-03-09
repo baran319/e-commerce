@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Profilim | FitMarket{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div class="container">
+    <h1>👤 Hesabım</h1>
+  </div>
+</div>
+
+<div class="container section-sm">
+  <div class="profile-layout">
+    <!-- Sidebar -->
+    <div class="profile-sidebar">
+      <div class="profile-avatar">{{ (current_user.first_name or current_user.username)[0].upper() }}</div>
+      <h3 style="margin-bottom:4px;">{{ current_user.full_name }}</h3>
+      <p style="color:var(--text-muted); font-size:0.85rem;">{{ current_user.email }}</p>
+      {% if current_user.is_admin %}
+      <span class="badge badge-warning" style="margin-top:8px;">Admin</span>
+      {% endif %}
+      <div class="divider"></div>
+      <nav style="display:flex; flex-direction:column; gap:4px; text-align:left;">
+        <a href="{{ url_for('profile.profile') }}" class="admin-nav-item active">👤 Profil Bilgileri</a>
+        <a href="{{ url_for('profile.orders') }}" class="admin-nav-item">📦 Siparişlerim</a>
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin.dashboard') }}" class="admin-nav-item">⚙️ Admin Panel</a>
+        {% endif %}
+        <a href="{{ url_for('auth.logout') }}" class="admin-nav-item" style="color:var(--danger);">🚪 Çıkış</a>
+      </nav>
+    </div>
+
+    <!-- Content -->
+    <div>
+      <div class="card">
+        <div class="card-body">
+          <h3 style="margin-bottom:24px;">Profil Bilgilerini Düzenle</h3>
+          <form method="post" action="{{ url_for('profile.update') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Ad</label>
+                <input type="text" name="first_name" class="form-control" value="{{ current_user.first_name or '' }}">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Soyad</label>
+                <input type="text" name="last_name" class="form-control" value="{{ current_user.last_name or '' }}">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Telefon</label>
+              <input type="tel" name="phone" class="form-control" value="{{ current_user.phone or '' }}" placeholder="05XX XXX XX XX">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Adres</label>
+              <textarea name="address" class="form-control" rows="3" placeholder="Ev adresiniz">{{ current_user.address or '' }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">💾 Kaydet</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

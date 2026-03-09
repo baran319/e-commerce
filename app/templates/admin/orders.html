@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Sipariş Yönetimi | FitMarket Admin{% endblock %}
+
+{% block content %}
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <div class="admin-sidebar-logo"><div class="navbar-brand-text" style="font-size:1.2rem;">⚙️ Admin</div></div>
+    <a href="{{ url_for('admin.dashboard') }}" class="admin-nav-item">📊 Dashboard</a>
+    <a href="{{ url_for('admin.products') }}" class="admin-nav-item">🛍️ Ürünler</a>
+    <a href="{{ url_for('admin.orders') }}" class="admin-nav-item active">📦 Siparişler</a>
+    <div class="divider"></div>
+    <a href="{{ url_for('main.index') }}" class="admin-nav-item">🏠 Siteye Dön</a>
+  </div>
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <h2>📦 Sipariş Yönetimi</h2>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        {% set statuses = [('', 'Tümü'), ('pending', 'Beklemede'), ('processing', 'Hazırlanıyor'), ('shipped', 'Kargoda'), ('delivered', 'Teslim'), ('cancelled', 'İptal')] %}
+        {% for val, label in statuses %}
+        <a href="{{ url_for('admin.orders', status=val) }}"
+           class="btn btn-sm {% if selected_status == val %}btn-primary{% else %}btn-outline{% endif %}">{{ label }}</a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Müşteri</th><th>Teslimat</th><th>Tutar</th><th>Durum</th><th>Tarih</th><th>Güncelle</th></tr>
+        </thead>
+        <tbody>
+          {% for order in orders.items %}
+          <tr>
+            <td><strong>{{ order.id }}</strong></td>
+            <td>{{ order.user.username }}</td>
+            <td style="font-size:0.85rem; color:var(--text-muted);">{{ order.shipping_city }}</td>
+            <td style="color:var(--accent); font-weight:700;">{{ "%.2f"|format(order.total_price) }}₺</td>
+            <td><span class="badge badge-{{ order.status_label[1] }}">{{ order.status_label[0] }}</span></td>
+            <td style="color:var(--text-muted); font-size:0.85rem;">{{ order.created_at.strftime('%d.%m.%Y') }}</td>
+            <td>
+              <form action="{{ url_for('admin.update_order_status', order_id=order.id) }}" method="post" style="display:flex; gap:6px;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <select name="status" class="sort-select" style="font-size:0.8rem; padding:4px 8px;">
+                  {% for s, (l, _) in order.STATUS_LABELS.items() %}
+                  <option value="{{ s }}" {% if order.status == s %}selected{% endif %}>{{ l }}</option>
+                  {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary btn-sm">✓</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if orders.pages > 1 %}
+    <div class="pagination">
+      {% for p in orders.iter_pages() %}
+        {% if p %}
+        <a href="{{ url_for('admin.orders', page=p, status=selected_status) }}" class="page-link {% if p == orders.page %}active{% endif %}">{{ p }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

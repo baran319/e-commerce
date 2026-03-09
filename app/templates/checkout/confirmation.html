@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Sipariş Onaylandı! | FitMarket{% endblock %}
+
+{% block content %}
+<div class="container section" style="max-width:640px;">
+  <div class="card" style="text-align:center; padding:56px 40px;">
+    <div style="font-size:4rem; margin-bottom:16px; animation: bounceIn 0.6s ease;">🎉</div>
+    <h1 style="font-size:2rem; color:var(--success); margin-bottom:8px;">Siparişiniz Alındı!</h1>
+    <p style="color:var(--text-muted); margin-bottom:32px;">Sipariş #{{ order.id }} — {{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+
+    <div style="background:var(--surface-2); border-radius:var(--radius-md); padding:24px; text-align:left; margin-bottom:32px;">
+      <p class="sidebar-title" style="margin-bottom:16px;">Teslimat Bilgileri</p>
+      <p><strong>Ad:</strong> {{ order.shipping_name }}</p>
+      <p><strong>Adres:</strong> {{ order.shipping_address }}, {{ order.shipping_city }}</p>
+      <p><strong>Telefon:</strong> {{ order.shipping_phone }}</p>
+    </div>
+
+    <div style="background:var(--surface-2); border-radius:var(--radius-md); padding:24px; text-align:left; margin-bottom:32px;">
+      <p class="sidebar-title" style="margin-bottom:16px;">Sipariş Detayı</p>
+      {% for item in order.items %}
+      <div class="summary-row" style="padding: 6px 0;">
+        <span>{{ item.product_name }} × {{ item.quantity }}</span>
+        <span>{{ "%.2f"|format(item.subtotal) }}₺</span>
+      </div>
+      {% endfor %}
+      <div class="divider"></div>
+      <div class="summary-row total">
+        <span>Toplam</span>
+        <span class="amount">{{ "%.2f"|format(order.total_price) }}₺</span>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <a href="{{ url_for('profile.orders') }}" class="btn btn-primary">📦 Siparişlerimi Gör</a>
+      <a href="{{ url_for('products.list_products') }}" class="btn btn-outline">↩ Alışverişe Devam</a>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes bounceIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+</style>
+{% endblock %}
