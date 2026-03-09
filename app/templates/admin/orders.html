@@ -1,68 +1,97 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 {% block title %}Sipariş Yönetimi | FitMarket Admin{% endblock %}
+{% block page_header %}Sipariş Yönetimi{% endblock %}
 
 {% block content %}
-<div class="admin-layout">
-  <div class="admin-sidebar">
-    <div class="admin-sidebar-logo"><div class="navbar-brand-text" style="font-size:1.2rem;">⚙️ Admin</div></div>
-    <a href="{{ url_for('admin.dashboard') }}" class="admin-nav-item">📊 Dashboard</a>
-    <a href="{{ url_for('admin.products') }}" class="admin-nav-item">🛍️ Ürünler</a>
-    <a href="{{ url_for('admin.orders') }}" class="admin-nav-item active">📦 Siparişler</a>
-    <div class="divider"></div>
-    <a href="{{ url_for('main.index') }}" class="admin-nav-item">🏠 Siteye Dön</a>
-  </div>
-  <div class="admin-main">
-    <div class="admin-topbar">
-      <h2>📦 Sipariş Yönetimi</h2>
-      <div style="display:flex; gap:8px; flex-wrap:wrap;">
-        {% set statuses = [('', 'Tümü'), ('pending', 'Beklemede'), ('processing', 'Hazırlanıyor'), ('shipped', 'Kargoda'), ('delivered', 'Teslim'), ('cancelled', 'İptal')] %}
-        {% for val, label in statuses %}
-        <a href="{{ url_for('admin.orders', status=val) }}"
-           class="btn btn-sm {% if selected_status == val %}btn-primary{% else %}btn-outline{% endif %}">{{ label }}</a>
-        {% endfor %}
-      </div>
-    </div>
+<div class="row">
+    <div class="col-12">
+        
+        <div class="card card-outline card-primary mb-4">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-filter"></i> Filtreler</h3>
+            </div>
+            <div class="card-body">
+                <div class="d-flex" style="gap:8px; flex-wrap:wrap;">
+                    {% set statuses = [('', 'Tümü'), ('pending', 'Beklemede'), ('processing', 'Hazırlanıyor'), ('shipped', 'Kargoda'), ('delivered', 'Teslim'), ('cancelled', 'İptal')] %}
+                    {% for val, label in statuses %}
+                    <a href="{{ url_for('admin.orders', status=val) }}"
+                       class="btn btn-sm {% if selected_status == val %}btn-primary{% else %}btn-default{% endif %}">{{ label }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>#</th><th>Müşteri</th><th>Teslimat</th><th>Tutar</th><th>Durum</th><th>Tarih</th><th>Güncelle</th></tr>
-        </thead>
-        <tbody>
-          {% for order in orders.items %}
-          <tr>
-            <td><strong>{{ order.id }}</strong></td>
-            <td>{{ order.user.username }}</td>
-            <td style="font-size:0.85rem; color:var(--text-muted);">{{ order.shipping_city }}</td>
-            <td style="color:var(--accent); font-weight:700;">{{ "%.2f"|format(order.total_price) }}₺</td>
-            <td><span class="badge badge-{{ order.status_label[1] }}">{{ order.status_label[0] }}</span></td>
-            <td style="color:var(--text-muted); font-size:0.85rem;">{{ order.created_at.strftime('%d.%m.%Y') }}</td>
-            <td>
-              <form action="{{ url_for('admin.update_order_status', order_id=order.id) }}" method="post" style="display:flex; gap:6px;">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <select name="status" class="sort-select" style="font-size:0.8rem; padding:4px 8px;">
-                  {% for s, (l, _) in order.STATUS_LABELS.items() %}
-                  <option value="{{ s }}" {% if order.status == s %}selected{% endif %}>{{ l }}</option>
-                  {% endfor %}
-                </select>
-                <button type="submit" class="btn btn-primary btn-sm">✓</button>
-              </form>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Kayıtlı Siparişler</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sipariş Numarası</th>
+                            <th>Müşteri</th>
+                            <th>Teslimat Şehri</th>
+                            <th>Tutar</th>
+                            <th>Durum</th>
+                            <th>Sipariş Tarihi</th>
+                            <th>Durum Güncelle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if orders.items %}
+                            {% for order in orders.items %}
+                            <tr>
+                                <td>OR-{{ order.id }}</td>
+                                <td>{{ order.user.username }}</td>
+                                <td><span class="text-muted">{{ order.shipping_city }}</span></td>
+                                <td class="text-success font-weight-bold">{{ "%.2f"|format(order.total_price) }}₺</td>
+                                <td><span class="badge badge-{{ order.status_label[1] }}">{{ order.status_label[0] }}</span></td>
+                                <td class="text-muted">{{ order.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                                <td>
+                                    <form action="{{ url_for('admin.update_order_status', order_id=order.id) }}" method="post" class="form-inline">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <div class="input-group input-group-sm">
+                                            <select name="status" class="form-control custom-select">
+                                                {% for s, (l, _) in order.STATUS_LABELS.items() %}
+                                                <option value="{{ s }}" {% if order.status == s %}selected{% endif %}>{{ l }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <span class="input-group-append">
+                                                <button type="submit" class="btn btn-info btn-flat"><i class="fas fa-check"></i></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="7" class="text-center">Sipariş bulunamadı.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            {% if orders.pages > 1 %}
+            <div class="card-footer clearfix">
+                <ul class="pagination pagination-sm m-0 float-right">
+                    {% for p in orders.iter_pages() %}
+                        {% if p %}
+                            <li class="page-item {% if p == orders.page %}active{% endif %}">
+                                <a class="page-link" href="{{ url_for('admin.orders', page=p, status=selected_status) }}">{{ p }}</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled"><span class="page-link">...</span></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        <!-- /.card -->
     </div>
-
-    {% if orders.pages > 1 %}
-    <div class="pagination">
-      {% for p in orders.iter_pages() %}
-        {% if p %}
-        <a href="{{ url_for('admin.orders', page=p, status=selected_status) }}" class="page-link {% if p == orders.page %}active{% endif %}">{{ p }}</a>
-        {% endif %}
-      {% endfor %}
-    </div>
-    {% endif %}
-  </div>
 </div>
 {% endblock %}

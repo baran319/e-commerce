@@ -1,117 +1,155 @@
-{% extends "base.html" %}
-{% block title %}{{ 'Ürün Düzenle' if product else 'Yeni Ürün Ekle' }} | Admin{% endblock %}
+{% extends "admin/base.html" %}
+{% block title %}{{ 'Ürün Düzenle' if product else 'Yeni Ürün Ekle' }} | FitMarket Admin{% endblock %}
+{% block page_header %}{{ 'Ürün Düzenle' if product else 'Yeni Ürün Ekle' }}{% endblock %}
 
 {% block content %}
-<div class="admin-layout">
-  <div class="admin-sidebar">
-    <div class="admin-sidebar-logo"><div class="navbar-brand-text" style="font-size:1.2rem;">⚙️ Admin</div></div>
-    <a href="{{ url_for('admin.dashboard') }}" class="admin-nav-item">📊 Dashboard</a>
-    <a href="{{ url_for('admin.products') }}" class="admin-nav-item active">🛍️ Ürünler</a>
-    <a href="{{ url_for('admin.orders') }}" class="admin-nav-item">📦 Siparişler</a>
-    <div class="divider"></div>
-    <a href="{{ url_for('main.index') }}" class="admin-nav-item">🏠 Siteye Dön</a>
-  </div>
-  <div class="admin-main">
-    <div class="admin-topbar">
-      <h2>{{ '✏️ Ürün Düzenle' if product else '➕ Yeni Ürün Ekle' }}</h2>
-      <a href="{{ url_for('admin.products') }}" class="btn btn-outline btn-sm">← Geri</a>
-    </div>
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">{{ 'Ürün Bilgilerini Düzenle' if product else 'Yeni Ürün Bilgileri' }}</h3>
+                <div class="card-tools">
+                    <a href="{{ url_for('admin.products') }}" class="btn btn-tool" title="Geri Dön">
+                        <i class="fas fa-arrow-left"></i> Ürünlere Dön
+                    </a>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="card-body">
+                    
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Ürün Adı *</label>
+                                <input type="text" name="name" class="form-control" required value="{{ product.name if product else '' }}" placeholder="Ürün adı giriniz">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Slug (URL) *</label>
+                                <input type="text" name="slug" id="slugField" class="form-control" required value="{{ product.slug if product else '' }}" placeholder="urun-adi-slug">
+                            </div>
+                        </div>
+                    </div>
 
-    <form method="post" class="card" style="max-width:820px;">
-      <div class="card-body">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Ürün Adı *</label>
-            <input type="text" name="name" class="form-control" required value="{{ product.name if product else '' }}">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Slug (URL) *</label>
-            <input type="text" name="slug" id="slugField" class="form-control" required value="{{ product.slug if product else '' }}" placeholder="urun-adi">
-          </div>
+                    <div class="form-group">
+                        <label>Kısa Açıklama</label>
+                        <input type="text" name="short_description" class="form-control" value="{{ product.short_description if product else '' }}" placeholder="Max 300 karakter">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tam Açıklama</label>
+                        <textarea name="description" class="form-control" rows="4" placeholder="Ürünün detaylı açıklaması">{{ product.description if product else '' }}</textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Fiyat (₺) *</label>
+                                <input type="number" name="price" step="0.01" class="form-control" required value="{{ product.price if product else '' }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Orijinal Fiyat (İndirim öncesi)</label>
+                                <input type="number" name="original_price" step="0.01" class="form-control" value="{{ product.original_price if product else '' }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Stok *</label>
+                                <input type="number" name="stock" class="form-control" required value="{{ product.stock if product else 0 }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Kategori *</label>
+                                <select name="category_id" class="form-control custom-select" required>
+                                    <option value="" disabled {{ 'selected' if not product else '' }}>Kategori Seçin</option>
+                                    {% for cat in categories %}
+                                    <option value="{{ cat.id }}" {% if product and product.category_id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Marka</label>
+                                <input type="text" name="brand" class="form-control" value="{{ product.brand if product else '' }}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Miktar / Ağırlık</label>
+                                <input type="text" name="weight" class="form-control" value="{{ product.weight if product else '' }}" placeholder="Örn: 1kg, 2.27kg">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Tat / Lezzet Seçenekleri</label>
+                                <input type="text" name="flavor" class="form-control" value="{{ product.flavor if product else '' }}" placeholder="Çikolata, Vanilya...">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Badge (Rozet)</label>
+                                <select name="badge" class="form-control custom-select">
+                                    <option value="">Yok</option>
+                                    <option value="NEW" {% if product and product.badge == 'NEW' %}selected{% endif %}>NEW</option>
+                                    <option value="BESTSELLER" {% if product and product.badge == 'BESTSELLER' %}selected{% endif %}>BESTSELLER</option>
+                                    <option value="SALE" {% if product and product.badge == 'SALE' %}selected{% endif %}>SALE</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ürün Görseli URL</label>
+                        <input type="url" name="image_url" class="form-control" value="{{ product.image_url if product else '' }}" placeholder="https://...">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                            <input type="checkbox" class="custom-control-input" id="isFeaturedSwitch" name="is_featured" {% if product and product.is_featured %}checked{% endif %}>
+                            <label class="custom-control-label" for="isFeaturedSwitch">Ana Sayfada Öne Çıkar</label>
+                        </div>
+                    </div>
+                    
+                    {% if product %}
+                    <div class="form-group">
+                        <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+                            <input type="checkbox" class="custom-control-input" id="isActiveSwitch" name="is_active" {% if product.is_active %}checked{% endif %}>
+                            <label class="custom-control-label" for="isActiveSwitch">Ürün Aktif / Satışta</label>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> {{ 'Değişiklikleri Kaydet' if product else 'Ürünü Ekle' }}</button>
+                    <a href="{{ url_for('admin.products') }}" class="btn btn-default float-right">İptal</a>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-          <label class="form-label">Kısa Açıklama</label>
-          <input type="text" name="short_description" class="form-control" value="{{ product.short_description if product else '' }}" placeholder="Max 300 karakter">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Tam Açıklama</label>
-          <textarea name="description" class="form-control" rows="5">{{ product.description if product else '' }}</textarea>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Fiyat (₺) *</label>
-            <input type="number" name="price" step="0.01" class="form-control" required value="{{ product.price if product else '' }}">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Orijinal Fiyat (İndirim öncesi)</label>
-            <input type="number" name="original_price" step="0.01" class="form-control" value="{{ product.original_price if product else '' }}">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Stok *</label>
-            <input type="number" name="stock" class="form-control" required value="{{ product.stock if product else 0 }}">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Kategori *</label>
-            <select name="category_id" class="form-control" required>
-              {% for cat in categories %}
-              <option value="{{ cat.id }}" {% if product and product.category_id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
-              {% endfor %}
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Marka</label>
-            <input type="text" name="brand" class="form-control" value="{{ product.brand if product else '' }}">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Miktar / Ağırlık</label>
-            <input type="text" name="weight" class="form-control" value="{{ product.weight if product else '' }}" placeholder="1kg, 2.27kg">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Tat / Lezzet Seçenekleri</label>
-            <input type="text" name="flavor" class="form-control" value="{{ product.flavor if product else '' }}" placeholder="Çikolata, Vanilya, Çilek">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Badge</label>
-            <select name="badge" class="form-control">
-              <option value="">Yok</option>
-              <option value="NEW" {% if product and product.badge == 'NEW' %}selected{% endif %}>NEW</option>
-              <option value="BESTSELLER" {% if product and product.badge == 'BESTSELLER' %}selected{% endif %}>BESTSELLER</option>
-              <option value="SALE" {% if product and product.badge == 'SALE' %}selected{% endif %}>SALE</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Ürün Görseli URL</label>
-          <input type="url" name="image_url" class="form-control" value="{{ product.image_url if product else '' }}" placeholder="https://...">
-        </div>
-        <div style="display:flex; gap:20px; align-items:center; margin-bottom:24px;">
-          <label style="display:flex; align-items:center; gap:8px; cursor:pointer; color:var(--text-light);">
-            <input type="checkbox" name="is_featured" {% if product and product.is_featured %}checked{% endif %}> Öne Çıkar
-          </label>
-          {% if product %}
-          <label style="display:flex; align-items:center; gap:8px; cursor:pointer; color:var(--text-light);">
-            <input type="checkbox" name="is_active" {% if product.is_active %}checked{% endif %}> Aktif
-          </label>
-          {% endif %}
-        </div>
-        <div style="display:flex; gap:12px;">
-          <button type="submit" class="btn btn-accent btn-lg">💾 {{ 'Güncelle' if product else 'Ekle' }}</button>
-          <a href="{{ url_for('admin.products') }}" class="btn btn-outline">İptal</a>
-        </div>
-      </div>
-    </form>
-  </div>
+    </div>
 </div>
 {% endblock %}
 
-{% block extra_scripts %}
+{% block extra_js %}
 <script>
 // Auto-generate slug from name
 document.querySelector('[name="name"]').addEventListener('input', function() {

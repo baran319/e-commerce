@@ -1,95 +1,143 @@
-{% extends "base.html" %}
-{% block title %}Admin Panel | FitMarket{% endblock %}
+{% extends "admin/base.html" %}
+{% block title %}Dashboard | FitMarket Admin{% endblock %}
+{% block page_header %}Gösterge Paneli{% endblock %}
 
 {% block content %}
-<div class="admin-layout">
-  <!-- Sidebar -->
-  <div class="admin-sidebar">
-    <div class="admin-sidebar-logo">
-      <div class="navbar-brand-text" style="font-size:1.2rem;">⚙️ Admin</div>
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3>{{ stats.total_products }}</h3>
+                <p>Toplam Ürün</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="{{ url_for('admin.products') }}" class="small-box-footer">Ürünlere Git <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
     </div>
-    <a href="{{ url_for('admin.dashboard') }}" class="admin-nav-item {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">📊 Dashboard</a>
-    <a href="{{ url_for('admin.products') }}" class="admin-nav-item {% if 'admin.products' in request.endpoint or 'admin.add_product' in request.endpoint or 'admin.edit_product' in request.endpoint %}active{% endif %}">🛍️ Ürünler</a>
-    <a href="{{ url_for('admin.orders') }}" class="admin-nav-item {% if request.endpoint == 'admin.orders' %}active{% endif %}">📦 Siparişler</a>
-    <div class="divider"></div>
-    <a href="{{ url_for('main.index') }}" class="admin-nav-item">🏠 Siteye Dön</a>
-    <a href="{{ url_for('auth.logout') }}" class="admin-nav-item" style="color:var(--danger);">🚪 Çıkış</a>
-  </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>{{ stats.total_orders }}</h3>
+                <p>Toplam Sipariş</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="{{ url_for('admin.orders') }}" class="small-box-footer">Siparişlere Git <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3>{{ stats.total_users }}</h3>
+                <p>Kayıtlı Kullanıcı</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">Daha Fazla Bilgi <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3>{{ stats.pending_orders }}</h3>
+                <p>Bekleyen Sipariş</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="{{ url_for('admin.orders') }}?status=pending" class="small-box-footer">İncele <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+</div>
+<!-- /.row -->
 
-  <!-- Main -->
-  <div class="admin-main">
-    <div class="admin-topbar">
-      <h2>📊 Dashboard</h2>
-      <span style="color:var(--text-muted); font-size:0.9rem;">Merhaba, {{ current_user.first_name or current_user.username }}!</span>
-    </div>
+<!-- Main row -->
+<div class="row">
+    <!-- Left col -->
+    <section class="col-lg-12 connectedSortable">
+        <!-- Custom tabs (Charts with tabs)-->
+        <div class="card">
+            <div class="card-header border-transparent">
+                <h3 class="card-title">Son Siparişler</h3>
 
-    <div class="stats-cards">
-      <div class="stat-card">
-        <div class="stat-card-label">Toplam Ürün</div>
-        <div class="stat-card-value" style="color:var(--accent);">{{ stats.total_products }}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-label">Toplam Sipariş</div>
-        <div class="stat-card-value" style="color:var(--success);">{{ stats.total_orders }}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-label">Kayıtlı Kullanıcı</div>
-        <div class="stat-card-value" style="color:var(--primary-light);">{{ stats.total_users }}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-label">Bekleyen Sipariş</div>
-        <div class="stat-card-value" style="color:var(--warning);">{{ stats.pending_orders }}</div>
-      </div>
-    </div>
-
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
-      <h3>Son Siparişler</h3>
-      <a href="{{ url_for('admin.orders') }}" class="btn btn-outline btn-sm">Tümünü Gör</a>
-    </div>
-
-    {% if recent_orders %}
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Müşteri</th>
-            <th>Tutar</th>
-            <th>Durum</th>
-            <th>Tarih</th>
-            <th>İşlem</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for order in recent_orders %}
-          <tr>
-            <td><strong>{{ order.id }}</strong></td>
-            <td>{{ order.user.username }}</td>
-            <td style="color:var(--accent); font-weight:700;">{{ "%.2f"|format(order.total_price) }}₺</td>
-            <td><span class="badge badge-{{ order.status_label[1] }}">{{ order.status_label[0] }}</span></td>
-            <td style="color:var(--text-muted); font-size:0.85rem;">{{ order.created_at.strftime('%d.%m.%Y') }}</td>
-            <td>
-              <form action="{{ url_for('admin.update_order_status', order_id=order.id) }}" method="post" style="display:flex; gap:6px; align-items:center;">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <select name="status" class="sort-select" style="font-size:0.8rem; padding:4px 8px;">
-                  {% for s, (l, _) in order.STATUS_LABELS.items() %}
-                  <option value="{{ s }}" {% if order.status == s %}selected{% endif %}>{{ l }}</option>
-                  {% endfor %}
-                </select>
-                <button type="submit" class="btn btn-primary btn-sm">✓</button>
-              </form>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-    {% else %}
-    <div class="empty-state" style="padding:40px;">
-      <div class="empty-icon">📦</div>
-      <h3>Henüz sipariş yok</h3>
-    </div>
-    {% endif %}
-  </div>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table m-0">
+                        <thead>
+                        <tr>
+                            <th>Sipariş ID</th>
+                            <th>Müşteri</th>
+                            <th>Durum</th>
+                            <th>Tutar</th>
+                            <th>Tarih</th>
+                            <th>Hızlı Eylem</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if recent_orders %}
+                            {% for order in recent_orders %}
+                            <tr>
+                                <td><a href="#">OR-{{ order.id }}</a></td>
+                                <td>{{ order.user.username }}</td>
+                                <td><span class="badge badge-{{ order.status_label[1] }}">{{ order.status_label[0] }}</span></td>
+                                <td>
+                                    <div class="sparkbar" data-color="#00a65a" data-height="20">{{ "%.2f"|format(order.total_price) }}₺</div>
+                                </td>
+                                <td>{{ order.created_at.strftime('%d.%m.%Y') }}</td>
+                                <td>
+                                    <form action="{{ url_for('admin.update_order_status', order_id=order.id) }}" method="post" class="form-inline">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <div class="input-group input-group-sm">
+                                            <select name="status" class="form-control" style="font-size:0.8rem;">
+                                              {% for s, (l, _) in order.STATUS_LABELS.items() %}
+                                              <option value="{{ s }}" {% if order.status == s %}selected{% endif %}>{{ l }}</option>
+                                              {% endfor %}
+                                            </select>
+                                            <span class="input-group-append">
+                                                <button type="submit" class="btn btn-primary btn-flat"><i class="fas fa-check"></i></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center">Henüz sipariş yok</td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+                <a href="{{ url_for('admin.orders') }}" class="btn btn-sm btn-secondary float-right">Tüm Siparişleri Gör</a>
+            </div>
+            <!-- /.card-footer -->
+        </div>
+        <!-- /.card -->
+    </section>
 </div>
 {% endblock %}
