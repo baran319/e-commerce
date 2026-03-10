@@ -105,7 +105,7 @@ with app.app_context():
                 description='Alman üretim Creapure licenced kreatin monohidrat. Dünyanın en güvenilir kreatin kaynağından elde edilmiş, en saf formülü.',
                 price=529.90, stock=90, brand='Creapure',
                 weight='500g',
-                image_url='https://images.unsplash.com/photo-1544991936-9464fa57a54a?w=600&q=80',
+                image_url='https://images.unsplash.com/photo-1594882645126-14020914d58d?w=600&q=80',
                 badge='NEW', is_featured=True, category_id=kreat.id),
 
         # Pre-Workout
@@ -139,7 +139,7 @@ with app.app_context():
                 description='Kalp ve beyin sağlığını destekleyen, yüksek EPA/DHA içerikli premium balık yağı kapsülü.',
                 price=249.90, stock=400, brand='Now Foods',
                 weight='200 softgel',
-                image_url='https://images.unsplash.com/photo-1550572017-edd951aa8ca6?w=600&q=80',
+                image_url='https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&q=80',
                 badge='BESTSELLER', is_featured=True, category_id=vit.id),
 
         Product(name='Vitamin D3 + K2 5000 IU', slug='vitamin-d3-k2-5000iu',
@@ -147,7 +147,7 @@ with app.app_context():
                 description='Yüksek doz D3 vitamini ve MenaQ7 K2 vitamini kombinasyonu ile maksimum biyoyararlanım.',
                 price=299.90, original_price=399.90, stock=180, brand='Thorne',
                 weight='90 kapsül',
-                image_url='https://images.unsplash.com/photo-1550572017-edd951aa8ca6?w=600&q=80',
+                image_url='https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&q=80',
                 badge='NEW', is_featured=False, category_id=vit.id),
 
         Product(name='Magnezyum Glisinasyon 400mg', slug='magnezyum-glisinasyon-400mg',
@@ -195,7 +195,7 @@ with app.app_context():
                 description='IPF onaylı 60cm elastik bilek wrapu. Güçlü bilek desteği ile ağır kaldırmalarda güvenliği artırır.',
                 price=179.90, stock=200, brand='SBD Apparel',
                 weight='Çift (2\'li paket)',
-                image_url='https://images.unsplash.com/photo-1544991936-9464fa57a54a?w=600&q=80',
+                image_url='https://images.unsplash.com/photo-1594882645126-14020914d58d?w=600&q=80',
                 is_featured=False, category_id=acc.id),
 
         Product(name='Foam Roller Masaj Silindir', slug='foam-roller-masaj-silindir',
@@ -219,7 +219,7 @@ with app.app_context():
                 description='Micronize L-Glutamin, yoğun antrenmanlar sonrası kas toparlanmasını hızlandırır ve bağışıklık sistemini destekler.',
                 price=329.90, stock=110, brand='Bulk Powders',
                 weight='500g',
-                image_url='https://images.unsplash.com/photo-1544991936-9464fa57a54a?w=600&q=80',
+                image_url='https://images.unsplash.com/photo-1594882645126-14020914d58d?w=600&q=80',
                 category_id=prot.id),
 
         Product(name='Citrulline Malate 2:1 300g', slug='citrulline-malate-300g',

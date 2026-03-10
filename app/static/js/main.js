@@ -24,3 +24,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 4000);
   });
 });
+
+// Theme Toggle Logic
+document.addEventListener('DOMContentLoaded', () => {
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const iconLight = document.querySelector('.theme-icon-light');
+  const iconDark = document.querySelector('.theme-icon-dark');
+
+  if (!themeToggleBtn) return;
+
+  function updateIcons(isDark) {
+    if (isDark) {
+      iconLight.style.display = 'inline-block';
+      iconDark.style.display = 'none';
+    } else {
+      iconLight.style.display = 'none';
+      iconDark.style.display = 'inline-block';
+    }
+  }
+
+  // Initialize icon upon load
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  updateIcons(isDark);
+
+  themeToggleBtn.addEventListener('click', () => {
+    let currentTheme = document.documentElement.getAttribute('data-theme');
+    let targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    document.documentElement.setAttribute('data-theme', targetTheme);
+    localStorage.setItem('theme', targetTheme);
+    updateIcons(targetTheme === 'dark');
+  });
+});

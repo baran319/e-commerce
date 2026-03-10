@@ -46,7 +46,7 @@ def list_products():
     products = pagination.items
     categories = db.session.execute(db.select(Category)).scalars().all()
     
-    unique_brands_stmt = db.select(Product.brand).filter(Product.brand != None).distinct()
+    unique_brands_stmt = db.select(Product.brand).filter(Product.brand != None, Product.brand != '').distinct()
     brands = db.session.execute(unique_brands_stmt).scalars().all()
 
     selected_category = db.session.execute(

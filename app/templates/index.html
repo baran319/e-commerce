@@ -1,55 +1,53 @@
 {% extends "base.html" %}
 {% block title %}FitMarket | Türkiye'nin #1 Spor Takviyesi Mağazası{% endblock %}
-{% block meta_description %}FitMarket'te en kaliteli protein tozu, kreatin, pre-workout ve spor takviyelerini keşfedin. Hızlı teslimat, 100% orijinal ürün garantisi.{% endblock %}
+{% block meta_description %}FitMarket'te en kaliteli protein tozu, kreatin, pre-workout ve spor takviyelerini keşfedin.
+Hızlı teslimat, 100% orijinal ürün garantisi.{% endblock %}
 
 {% block content %}
 
-<!-- ── HERO ──────────────────────────────────────────────────────── -->
-<section class="hero">
-  <div class="hero-particles" id="particles"></div>
-  <div class="container" style="position: relative; z-index: 2;">
-    <div class="hero-content">
-      <div class="hero-eyebrow">
-        ⚡ Türkiye'nin #1 Spor Takviyesi Mağazası
-      </div>
-      <h1 class="hero-title">
-        Limitlerini<br>
-        <span class="gradient-text">Aş, Rekoru</span><br>
-        Sen Kır
+<!-- ── HERO (PREMIUM E-COMMERCE BANNER) ────────────────────────── -->
+<section class="hero-premium">
+  <div class="hero-premium-bg"></div>
+  <div class="container hero-premium-container">
+    <div class="hero-premium-content">
+      <div class="hero-premium-badge">YENİ ÜRÜN</div>
+      <h1 class="hero-premium-title">
+        TITANIUM<br>
+        <span class="gradient-text">WHEY ISOLATE</span>
       </h1>
-      <p class="hero-subtitle">
-        En iyi markalardan 500+ ürün. Protein, kreatin, pre-workout ve vitamin takviyelerinde Türkiye'nin en güvenilir adresi.
+      <p class="hero-premium-subtitle">
+        Kas gelişimini hızlandır, rekorlarını altüst et. Sınırlı sayıda üretilen yeni nesil hidrolize whey protein ile
+        tanış. %100 saf, %100 performans.
       </p>
-      <div class="hero-actions">
-        <a href="{{ url_for('products.list_products') }}" class="btn btn-accent btn-lg">
-          🛍️ Alışverişe Başla
-        </a>
-        <a href="{{ url_for('products.list_products', category='protein') }}" class="btn btn-outline btn-lg">
-          💪 Protein Tozları
+      <div class="hero-premium-price-box">
+        <div class="price-badge">LANSMANA ÖZEL</div>
+        <div class="price-values">
+          <span class="price-old">1.399 TL</span>
+          <span class="price-new">999 TL</span>
+        </div>
+      </div>
+      <div class="hero-actions" style="margin-top: 24px;">
+        <a href="{{ url_for('products.list_products') }}" class="btn btn-warning btn-lg hero-cta-btn">
+          FIRSATI KAÇIRMA
         </a>
       </div>
-      <div class="hero-trust">
-        <div class="hero-trust-item">
-          <span class="trust-icon">🚚</span>
-          <span>500₺ üzeri ücretsiz kargo</span>
-        </div>
-        <div class="hero-trust-item">
-          <span class="trust-icon">✅</span>
-          <span>%100 Orijinal Ürün</span>
-        </div>
-        <div class="hero-trust-item">
-          <span class="trust-icon">🔄</span>
-          <span>14 gün iade hakkı</span>
+    </div>
+
+    <div class="hero-premium-visual">
+      <div class="hero-jar-showcase">
+        <!-- Premium CSS Product Jar Mockup -->
+        <div class="jar-lid"></div>
+        <div class="jar-body">
+          <div class="jar-label">
+            <div class="jar-brand">FitMarket</div>
+            <div class="jar-name">TITANIUM</div>
+            <div class="jar-desc">100% WHEY ISOLATE</div>
+            <div class="jar-flavour">CHOCOLATE FLAVOUR</div>
+            <div class="jar-weight">2000G / 66 SERVINGS</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="hero-glow-orb"></div>
-  <!-- Wave SVG -->
-  <div class="hero-wave">
-    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block; width:100%;">
-      <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="var(--dark)" opacity="0.9"/>
-    </svg>
   </div>
 </section>
 
@@ -99,7 +97,8 @@
 {% if featured_products %}
 <section class="section" style="padding-top: 0;">
   <div class="container">
-    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; flex-wrap:wrap; gap:16px;">
+    <div
+      style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; flex-wrap:wrap; gap:16px;">
       <div>
         <h2 class="section-title" style="margin-bottom:4px;">Öne Çıkan <span>Ürünler</span></h2>
         <p style="color:var(--text-muted);">Sporcuların en çok tercih ettiği takviyeler</p>
@@ -130,18 +129,23 @@
       overflow: hidden;
       position: relative;
     ">
-      <div style="position:absolute; right:-100px; top:-100px; width:400px; height:400px; border-radius:50%; background:rgba(0,229,255,0.05); pointer-events:none;"></div>
+      <div
+        style="position:absolute; right:-100px; top:-100px; width:400px; height:400px; border-radius:50%; background:rgba(0,229,255,0.05); pointer-events:none;">
+      </div>
       <div>
-        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,170,0,0.15); border:1px solid rgba(255,170,0,0.3); padding:6px 16px; border-radius:50px; font-size:0.8rem; color:var(--warning); font-weight:600; margin-bottom:16px;">
+        <div
+          style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,170,0,0.15); border:1px solid rgba(255,170,0,0.3); padding:6px 16px; border-radius:50px; font-size:0.8rem; color:var(--warning); font-weight:600; margin-bottom:16px;">
           🔥 Sınırlı Süre
         </div>
         <h2 style="font-size:clamp(1.6rem,3vw,2.4rem); font-weight:900; margin-bottom:10px;">
           500₺ Üzeri Alışverişte<br>
           <span style="color:var(--accent);">Ücretsiz Kargo + %10 İndirim</span>
         </h2>
-        <p style="color:var(--text-muted);">Kod: <strong style="color:var(--warning); font-family:monospace; font-size:1.1rem;">FITMARKET10</strong></p>
+        <p style="color:var(--text-muted);">Kod: <strong
+            style="color:var(--warning); font-family:monospace; font-size:1.1rem;">FITMARKET10</strong></p>
       </div>
-      <a href="{{ url_for('products.list_products') }}" class="btn btn-accent btn-lg" style="white-space:nowrap; flex-shrink:0;">
+      <a href="{{ url_for('products.list_products') }}" class="btn btn-accent btn-lg"
+        style="white-space:nowrap; flex-shrink:0;">
         Hemen Alışveriş Yap
       </a>
     </div>
@@ -152,7 +156,8 @@
 {% if bestsellers %}
 <section class="section" style="padding-top: 0;">
   <div class="container">
-    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; flex-wrap:wrap; gap:16px;">
+    <div
+      style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; flex-wrap:wrap; gap:16px;">
       <div>
         <h2 class="section-title" style="margin-bottom:4px;">En Çok <span>Satanlar</span></h2>
         <p style="color:var(--text-muted);">Binlerce sporcunun güveni</p>
@@ -176,12 +181,12 @@
     </div>
     <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:24px;">
       {% set features = [
-        ('🏆', 'Orijinal Ürün Garantisi', 'Tüm ürünlerimiz resmi distribütörlerden temin edilir.'),
-        ('🚚', 'Hızlı Kargo', '3-5 iş günü içinde kapınıza teslim.'),
-        ('💳', 'Güvenli Ödeme', '256-bit SSL şifreleme ile güvenli ödeme.'),
-        ('🤝', 'Uzman Destek', 'Spor beslenme uzmanlarından ücretsiz danışmanlık.'),
-        ('🔄', '14 Gün İade', 'Memnun kalmadıysanız iade garantisi.'),
-        ('🎁', 'Sadakat Puanı', 'Her alışverişte puan kazan, indirimle harca.'),
+      ('🏆', 'Orijinal Ürün Garantisi', 'Tüm ürünlerimiz resmi distribütörlerden temin edilir.'),
+      ('🚚', 'Hızlı Kargo', '3-5 iş günü içinde kapınıza teslim.'),
+      ('💳', 'Güvenli Ödeme', '256-bit SSL şifreleme ile güvenli ödeme.'),
+      ('🤝', 'Uzman Destek', 'Spor beslenme uzmanlarından ücretsiz danışmanlık.'),
+      ('🔄', '14 Gün İade', 'Memnun kalmadıysanız iade garantisi.'),
+      ('🎁', 'Sadakat Puanı', 'Her alışverişte puan kazan, indirimle harca.'),
       ] %}
       {% for icon, title, desc in features %}
       <div class="card card-glass" style="padding: 28px 24px; text-align:center;">
@@ -198,39 +203,41 @@
 
 {% block extra_scripts %}
 <script>
-// Particle animation
-const container = document.getElementById('particles');
-for (let i = 0; i < 25; i++) {
-  const p = document.createElement('div');
-  p.classList.add('hero-particle');
-  p.style.cssText = `
-    left: ${Math.random() * 100}%;
-    animation-duration: ${4 + Math.random() * 8}s;
-    animation-delay: ${Math.random() * 8}s;
-    width: ${1 + Math.random() * 3}px;
-    height: ${1 + Math.random() * 3}px;
-    opacity: ${0.2 + Math.random() * 0.5};
-  `;
-  container.appendChild(p);
-}
+  // Particle animation (only if container exists)
+  const container = document.getElementById('particles');
+  if (container) {
+    for (let i = 0; i < 25; i++) {
+      const p = document.createElement('div');
+      p.classList.add('hero-particle');
+      p.style.cssText = `
+      left: ${Math.random() * 100}%;
+      animation-duration: ${4 + Math.random() * 8}s;
+      animation-delay: ${Math.random() * 8}s;
+      width: ${1 + Math.random() * 3}px;
+      height: ${1 + Math.random() * 3}px;
+      opacity: ${0.2 + Math.random() * 0.5};
+    `;
+      container.appendChild(p);
+    }
+  }
 
-// Counter animation
-function animateCounters() {
-  document.querySelectorAll('.stat-number[data-target]').forEach(el => {
-    const target = parseInt(el.dataset.target);
-    let current = 0;
-    const step = target / 60;
-    const interval = setInterval(() => {
-      current += step;
-      if (current >= target) { current = target; clearInterval(interval); }
-      el.textContent = Math.floor(current).toLocaleString('tr');
-    }, 25);
-  });
-}
-const statsSection = document.querySelector('.stats-strip');
-const observer = new IntersectionObserver(entries => {
-  if (entries[0].isIntersecting) { animateCounters(); observer.disconnect(); }
-}, { threshold: 0.3 });
-if (statsSection) observer.observe(statsSection);
+  // Counter animation
+  function animateCounters() {
+    document.querySelectorAll('.stat-number[data-target]').forEach(el => {
+      const target = parseInt(el.dataset.target);
+      let current = 0;
+      const step = target / 60;
+      const interval = setInterval(() => {
+        current += step;
+        if (current >= target) { current = target; clearInterval(interval); }
+        el.textContent = Math.floor(current).toLocaleString('tr');
+      }, 25);
+    });
+  }
+  const statsSection = document.querySelector('.stats-strip');
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { animateCounters(); observer.disconnect(); }
+  }, { threshold: 0.3 });
+  if (statsSection) observer.observe(statsSection);
 </script>
 {% endblock %}

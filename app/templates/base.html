@@ -9,6 +9,15 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
   {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -47,6 +56,10 @@
       </form>
 
       <div class="navbar-actions">
+        <button id="themeToggleBtn" class="cart-btn" title="Tema Değiştir" style="font-size: 1.2rem; cursor: pointer;">
+          <span class="theme-icon-light" style="display: none;">☀️</span>
+          <span class="theme-icon-dark" style="display: none;">🌙</span>
+        </button>
         <a href="{{ url_for('cart.view_cart') }}" class="cart-btn" title="Sepetim">
           🛒
           {% if cart_count > 0 %}
