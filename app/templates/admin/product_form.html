@@ -1,16 +1,16 @@
 {% extends "admin/base.html" %}
-{% block title %}{{ 'Ürün Düzenle' if product else 'Yeni Ürün Ekle' }} | FitMarket Admin{% endblock %}
-{% block page_header %}{{ 'Ürün Düzenle' if product else 'Yeni Ürün Ekle' }}{% endblock %}
+{% block title %}{{ 'Edit Product' if product else 'Add New Product' }} | FitMarket Admin{% endblock %}
+{% block page_header %}{{ 'Edit Product' if product else 'Add New Product' }}{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-10 offset-md-1">
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">{{ 'Ürün Bilgilerini Düzenle' if product else 'Yeni Ürün Bilgileri' }}</h3>
+                <h3 class="card-title">{{ 'Edit Product Details' if product else 'New Product Details' }}</h3>
                 <div class="card-tools">
-                    <a href="{{ url_for('admin.products') }}" class="btn btn-tool" title="Geri Dön">
-                        <i class="fas fa-arrow-left"></i> Ürünlere Dön
+                    <a href="{{ url_for('admin.products') }}" class="btn btn-tool" title="Go Back">
+                        <i class="fas fa-arrow-left"></i> Back to Products
                     </a>
                 </div>
             </div>
@@ -23,8 +23,8 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Ürün Adı *</label>
-                                <input type="text" name="name" class="form-control" required value="{{ product.name if product else '' }}" placeholder="Ürün adı giriniz">
+                                <label>Product Name *</label>
+                                <input type="text" name="name" class="form-control" required value="{{ product.name if product else '' }}" placeholder="Enter product name">
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -36,25 +36,25 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Kısa Açıklama</label>
-                        <input type="text" name="short_description" class="form-control" value="{{ product.short_description if product else '' }}" placeholder="Max 300 karakter">
+                        <label>Short Description</label>
+                        <input type="text" name="short_description" class="form-control" value="{{ product.short_description if product else '' }}" placeholder="Max 300 characters">
                     </div>
 
                     <div class="form-group">
-                        <label>Tam Açıklama</label>
-                        <textarea name="description" class="form-control" rows="4" placeholder="Ürünün detaylı açıklaması">{{ product.description if product else '' }}</textarea>
+                        <label>Full Description</label>
+                        <textarea name="description" class="form-control" rows="4" placeholder="Detailed description of the product">{{ product.description if product else '' }}</textarea>
                     </div>
 
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Fiyat (₺) *</label>
+                                <label>Price (₺) *</label>
                                 <input type="number" name="price" step="0.01" class="form-control" required value="{{ product.price if product else '' }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Orijinal Fiyat (İndirim öncesi)</label>
+                                <label>Original Price (Before discount)</label>
                                 <input type="number" name="original_price" step="0.01" class="form-control" value="{{ product.original_price if product else '' }}">
                             </div>
                         </div>
@@ -63,15 +63,15 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Stok *</label>
+                                <label>Stock *</label>
                                 <input type="number" name="stock" class="form-control" required value="{{ product.stock if product else 0 }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Kategori *</label>
+                                <label>Category *</label>
                                 <select name="category_id" class="form-control custom-select" required>
-                                    <option value="" disabled {{ 'selected' if not product else '' }}>Kategori Seçin</option>
+                                    <option value="" disabled {{ 'selected' if not product else '' }}>Select Category</option>
                                     {% for cat in categories %}
                                     <option value="{{ cat.id }}" {% if product and product.category_id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
                                     {% endfor %}
@@ -83,14 +83,14 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Marka</label>
+                                <label>Brand</label>
                                 <input type="text" name="brand" class="form-control" value="{{ product.brand if product else '' }}">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Miktar / Ağırlık</label>
-                                <input type="text" name="weight" class="form-control" value="{{ product.weight if product else '' }}" placeholder="Örn: 1kg, 2.27kg">
+                                <label>Quantity / Weight</label>
+                                <input type="text" name="weight" class="form-control" value="{{ product.weight if product else '' }}" placeholder="E.g: 1kg, 2.27kg">
                             </div>
                         </div>
                     </div>
@@ -98,15 +98,15 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Tat / Lezzet Seçenekleri</label>
-                                <input type="text" name="flavor" class="form-control" value="{{ product.flavor if product else '' }}" placeholder="Çikolata, Vanilya...">
+                                <label>Flavor Options</label>
+                                <input type="text" name="flavor" class="form-control" value="{{ product.flavor if product else '' }}" placeholder="Chocolate, Vanilla...">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>Badge (Rozet)</label>
+                                <label>Badge</label>
                                 <select name="badge" class="form-control custom-select">
-                                    <option value="">Yok</option>
+                                    <option value="">None</option>
                                     <option value="NEW" {% if product and product.badge == 'NEW' %}selected{% endif %}>NEW</option>
                                     <option value="BESTSELLER" {% if product and product.badge == 'BESTSELLER' %}selected{% endif %}>BESTSELLER</option>
                                     <option value="SALE" {% if product and product.badge == 'SALE' %}selected{% endif %}>SALE</option>
@@ -116,14 +116,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Ürün Görseli URL</label>
+                        <label>Product Image URL</label>
                         <input type="url" name="image_url" class="form-control" value="{{ product.image_url if product else '' }}" placeholder="https://...">
                     </div>
 
                     <div class="form-group">
                         <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                             <input type="checkbox" class="custom-control-input" id="isFeaturedSwitch" name="is_featured" {% if product and product.is_featured %}checked{% endif %}>
-                            <label class="custom-control-label" for="isFeaturedSwitch">Ana Sayfada Öne Çıkar</label>
+                            <label class="custom-control-label" for="isFeaturedSwitch">Feature on Homepage</label>
                         </div>
                     </div>
                     
@@ -131,7 +131,7 @@
                     <div class="form-group">
                         <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
                             <input type="checkbox" class="custom-control-input" id="isActiveSwitch" name="is_active" {% if product.is_active %}checked{% endif %}>
-                            <label class="custom-control-label" for="isActiveSwitch">Ürün Aktif / Satışta</label>
+                            <label class="custom-control-label" for="isActiveSwitch">Product Active / On Sale</label>
                         </div>
                     </div>
                     {% endif %}
@@ -140,8 +140,8 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> {{ 'Değişiklikleri Kaydet' if product else 'Ürünü Ekle' }}</button>
-                    <a href="{{ url_for('admin.products') }}" class="btn btn-default float-right">İptal</a>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> {{ 'Save Changes' if product else 'Add Product' }}</button>
+                    <a href="{{ url_for('admin.products') }}" class="btn btn-default float-right">Cancel</a>
                 </div>
             </form>
         </div>

@@ -6,7 +6,7 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{ url_for('main.index') }}" class="nav-link">Mağazaya Dön</a>
+            <a href="{{ url_for('main.index') }}" class="nav-link">Return to Store</a>
         </li>
     </ul>
 
@@ -18,10 +18,10 @@
                 <i class="far fa-user"></i> {{ current_user.name if current_user.is_authenticated else 'Admin' }}
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-item dropdown-header">Hesap İşlemleri</span>
+                <span class="dropdown-item dropdown-header">Account Options</span>
                 <div class="dropdown-divider"></div>
                 <a href="{{ url_for('auth.logout') }}" class="dropdown-item text-danger">
-                    <i class="fas fa-sign-out-alt mr-2"></i> Çıkış Yap
+                    <i class="fas fa-sign-out-alt mr-2"></i> Sign Out
                 </a>
             </div>
         </li>

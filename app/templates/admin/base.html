@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}Yönetim Paneli | FitMarket{% endblock %}</title>
+    <title>{% block title %}Admin Panel | FitMarket{% endblock %}</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -35,13 +35,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">{% block page_header %}Gösterge Paneli{% endblock %}</h1>
+                        <h1 class="m-0">{% block page_header %}Dashboard{% endblock %}</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         {% block breadcrumb %}
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ url_for('admin.dashboard') }}">Ana Sayfa</a></li>
-                            <li class="breadcrumb-item active">Gösterge Paneli</li>
+                            <li class="breadcrumb-item"><a href="{{ url_for('admin.dashboard') }}">Home</a></li>
+                            <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                         {% endblock %}
                     </div><!-- /.col -->
@@ -73,10 +73,10 @@
     <!-- /.content-wrapper -->
 
     <footer class="main-footer">
-        <strong>Telif Hakkı &copy; {{ current_year | default('2026') }} <a href="{{ url_for('main.index') }}">FitMarket</a>.</strong>
-        Tüm hakları saklıdır.
+        <strong>Copyright &copy; {{ current_year | default('2026') }} <a href="{{ url_for('main.index') }}">FitMarket</a>.</strong>
+        All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
-            <b>Sürüm</b> 1.0.0
+            <b>Version</b> 1.0.0
         </div>
     </footer>
 

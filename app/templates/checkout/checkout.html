@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Ödeme | FitMarket{% endblock %}
+{% block title %}Checkout | FitMarket{% endblock %}
 
 {% block content %}
 <div class="page-header">
   <div class="container">
-    <h1>🔒 Güvenli Ödeme</h1>
+    <h1>Secure Checkout</h1>
   </div>
 </div>
 
@@ -17,65 +17,65 @@
       <div class="checkout-form-section">
         <div class="step-header">
           <div class="step-number">1</div>
-          <h3>Teslimat Bilgileri</h3>
+          <h3>Shipping Information</h3>
         </div>
-        <div class="form-row">
+        <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
           <div class="form-group">
-            <label class="form-label">Ad Soyad *</label>
-            <input type="text" name="shipping_name" class="form-control" required placeholder="Ad Soyad"
+            <label class="form-label">Full Name *</label>
+            <input type="text" name="shipping_name" class="form-control" required placeholder="Full Name"
                    value="{{ current_user.full_name }}">
           </div>
           <div class="form-group">
-            <label class="form-label">Telefon *</label>
-            <input type="tel" name="shipping_phone" class="form-control" required placeholder="05XX XXX XX XX"
+            <label class="form-label">Phone *</label>
+            <input type="tel" name="shipping_phone" class="form-control" required placeholder="+1 555 000 0000"
                    value="{{ current_user.phone or '' }}">
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Adres *</label>
-          <textarea name="shipping_address" class="form-control" required placeholder="Cadde, mahalle, kapı no..."
+          <label class="form-label">Address *</label>
+          <textarea name="shipping_address" class="form-control" required placeholder="Street, apartment, building no..."
                     rows="3">{{ current_user.address or '' }}</textarea>
         </div>
         <div class="form-group">
-          <label class="form-label">Şehir *</label>
-          <input type="text" name="shipping_city" class="form-control" required placeholder="İstanbul">
+          <label class="form-label">City *</label>
+          <input type="text" name="shipping_city" class="form-control" required placeholder="New York">
         </div>
         <div class="form-group">
-          <label class="form-label">Sipariş Notu (isteğe bağlı)</label>
-          <textarea name="note" class="form-control" placeholder="Kurye için not..." rows="2"></textarea>
+          <label class="form-label">Order Note (optional)</label>
+          <textarea name="note" class="form-control" placeholder="Note for courier..." rows="2"></textarea>
         </div>
       </div>
 
-      <div class="checkout-form-section" style="margin-top: 20px;">
+      <div class="checkout-form-section" style="margin-top: 16px;">
         <div class="step-header">
           <div class="step-number">2</div>
-          <h3>Ödeme Yöntemi</h3>
+          <h3>Payment Method</h3>
         </div>
-        <div style="background:var(--surface-2); border:2px solid var(--accent); border-radius:var(--radius-md); padding:16px 20px; display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+        <div style="background:var(--surface-2); border:2px solid var(--primary); border-radius:var(--radius-md); padding:14px 18px; display:flex; align-items:center; gap:12px; margin-bottom:12px;">
           <span style="font-size:1.4rem;">💳</span>
           <div>
-            <div style="font-weight:700;">Kapıda Ödeme / EFT</div>
-            <div style="font-size:0.85rem; color:var(--text-muted);">Kapıda nakit veya kredi kartı ile ödeme</div>
+            <div style="font-weight:700;">Cash on Delivery / Bank Transfer</div>
+            <div style="font-size:0.85rem; color:var(--text-muted);">Pay at the door with cash or credit card</div>
           </div>
         </div>
         <div style="font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-          🔐 Tüm ödemeleriniz 256-bit SSL ile şifrelenmektedir.
+          🔐 All payments are secured with 256-bit SSL encryption.
         </div>
       </div>
 
-      <button type="submit" class="btn btn-accent btn-lg btn-full" style="margin-top:20px; font-size:1.05rem;">
-        ✅ Siparişi Tamamla — {{ "%.2f"|format(grand_total) }}₺
+      <button type="submit" class="btn btn-primary btn-lg btn-full" style="margin-top:20px; font-size:1rem;">
+        ✅ Place Order — {{ "%.2f"|format(grand_total) }}₺
       </button>
     </form>
 
     <!-- Summary -->
     <div>
       <div class="order-summary-card">
-        <h3 style="font-size:1rem; margin-bottom:20px;">Sipariş Özeti ({{ items|length }} ürün)</h3>
+        <h3>Order Summary ({{ items|length }} item{% if items|length != 1 %}s{% endif %})</h3>
         {% for item in items %}
         <div class="summary-row" style="padding: 8px 0; font-size:0.9rem;">
           <span style="display:flex; align-items:center; gap:8px;">
-            <span style="background:var(--surface-3); border-radius:4px; padding:2px 7px; font-size:0.8rem;">×{{ item.quantity }}</span>
+            <span style="background:var(--surface-3); border-radius:3px; padding:2px 7px; font-size:0.8rem;">×{{ item.quantity }}</span>
             {{ item.product.name[:30] }}{% if item.product.name|length > 30 %}…{% endif %}
           </span>
           <span>{{ "%.2f"|format(item.subtotal) }}₺</span>
@@ -83,15 +83,15 @@
         {% endfor %}
         <div class="divider"></div>
         <div class="summary-row">
-          <span>Ara Toplam</span>
+          <span>Subtotal</span>
           <span>{{ "%.2f"|format(total) }}₺</span>
         </div>
         <div class="summary-row">
-          <span>Kargo</span>
-          <span style="color:var(--success);">{{ "Ücretsiz" if shipping == 0 else "%.2f₺"|format(shipping) }}</span>
+          <span>Shipping</span>
+          <span style="color:var(--success);">{{ "Free" if shipping == 0 else "%.2f₺"|format(shipping) }}</span>
         </div>
         <div class="summary-row total">
-          <span>Toplam</span>
+          <span>Total</span>
           <span class="amount">{{ "%.2f"|format(grand_total) }}₺</span>
         </div>
       </div>

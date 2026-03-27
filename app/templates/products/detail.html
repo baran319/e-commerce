@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block title %}{{ product.name }} | FitMarket{% endblock %}
-{% block meta_description %}{{ product.short_description or product.description[:150] }}{% endblock %}
+{% block meta_description %}{{ product.short_description or product.description[:150] if product.description else product.name }}{% endblock %}
 
 {% block content %}
 <div class="container section">
 
   <!-- Breadcrumb -->
   <div class="breadcrumb mb-4">
-    <a href="{{ url_for('main.index') }}">Ana Sayfa</a>
+    <a href="{{ url_for('main.index') }}">Home</a>
     <span class="breadcrumb-sep">›</span>
-    <a href="{{ url_for('products.list_products') }}">Ürünler</a>
+    <a href="{{ url_for('products.list_products') }}">Products</a>
     <span class="breadcrumb-sep">›</span>
     <a href="{{ url_for('products.list_products', category=product.category.slug) }}">{{ product.category.name }}</a>
     <span class="breadcrumb-sep">›</span>
@@ -43,9 +43,9 @@
       <div class="product-rating-bar">
         {% if product.review_count > 0 %}
         <span class="stars">{{ '★' * product.avg_rating|int }}{{ '☆' * (5 - product.avg_rating|int) }}</span>
-        <span style="color:var(--text-muted); font-size:0.9rem;">{{ product.avg_rating }} / 5 ({{ product.review_count }} değerlendirme)</span>
+        <span style="color:var(--text-muted); font-size:0.9rem;">{{ product.avg_rating }} / 5 ({{ product.review_count }} reviews)</span>
         {% else %}
-        <span style="color:var(--text-muted); font-size:0.9rem;">Henüz değerlendirme yok</span>
+        <span style="color:var(--text-muted); font-size:0.9rem;">No reviews yet</span>
         {% endif %}
       </div>
 
@@ -53,7 +53,7 @@
         <span class="price-main">{{ "%.2f"|format(product.price) }}₺</span>
         {% if product.original_price %}
         <span class="price-original">{{ "%.2f"|format(product.original_price) }}₺</span>
-        <span class="discount-tag">-%{{ product.discount_percent }}</span>
+        <span class="discount-tag">-{{ product.discount_percent }}%</span>
         {% endif %}
       </div>
 
@@ -64,34 +64,38 @@
       <div class="product-meta-row">
         {% if product.brand %}
         <div class="product-meta-item">
-          <label>Marka</label>
+          <label>Brand</label>
           <span>{{ product.brand }}</span>
         </div>
         {% endif %}
         {% if product.weight %}
         <div class="product-meta-item">
-          <label>Miktar / Ağırlık</label>
+          <label>Weight / Size</label>
           <span>{{ product.weight }}</span>
         </div>
         {% endif %}
         {% if product.flavor %}
         <div class="product-meta-item">
-          <label>Lezzet Seçenekleri</label>
+          <label>Flavor Options</label>
           <span>{{ product.flavor }}</span>
         </div>
         {% endif %}
         <div class="product-meta-item">
-          <label>Stok Durumu</label>
-          <span style="color:{% if product.stock > 10 %}var(--success){% elif product.stock > 0 %}var(--warning){% else %}var(--danger){% endif %}">
-            {% if product.stock > 10 %}Stokta var{% elif product.stock > 0 %}Son {{ product.stock }} adet!{% else %}Tükendi{% endif %}
-          </span>
+          <label>Stock Status</label>
+          {% if product.stock > 10 %}
+          <span style="color: var(--success);">In Stock</span>
+          {% elif product.stock > 0 %}
+          <span style="color: var(--warning);">Only {{ product.stock }} left!</span>
+          {% else %}
+          <span style="color: var(--danger);">Sold Out</span>
+          {% endif %}
         </div>
       </div>
 
       {% if product.stock > 0 %}
       <div class="stock-indicator">
         <span class="stock-dot"></span>
-        <span>Stokta mevcut, hemen kargolayabiliriz</span>
+        <span>In stock — ready to ship</span>
       </div>
       {% endif %}
 
@@ -103,23 +107,48 @@
           <input type="number" name="quantity" id="qtyInput" class="qty-input" value="1" min="1" max="{{ product.stock }}">
           <button type="button" class="qty-btn" onclick="changeQty(1)">+</button>
         </div>
-        <button type="submit" class="btn btn-accent btn-lg" style="flex:1;">
-          🛒 Sepete Ekle
+        <button type="submit" class="btn btn-primary btn-lg" style="flex:1;">
+          Add to Cart
         </button>
       </form>
       {% elif not current_user.is_authenticated %}
       <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg btn-full">
-        Sepete Eklemek için Giriş Yap
+        Sign In to Add to Cart
       </a>
       {% else %}
-      <button class="btn btn-primary btn-lg btn-full" disabled>Tükendi</button>
+      <button class="btn btn-primary btn-lg btn-full" disabled>Sold Out</button>
       {% endif %}
 
-      <!-- Trust badges -->
-      <div style="display:flex; gap:16px; margin-top:20px; flex-wrap:wrap;">
-        <span style="font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; gap:6px;">🚚 Hızlı Kargo</span>
-        <span style="font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; gap:6px;">✅ Orijinal Ürün</span>
-        <span style="font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; gap:6px;">🔄 14 Gün İade</span>
+      <!-- Policy box -->
+      <div class="policy-box">
+        <div class="policy-item">
+          <span class="policy-icon">🚚</span>
+          <div>
+            <div class="policy-title">Fast Shipping</div>
+            <div class="policy-desc">3-5 business days delivery</div>
+          </div>
+        </div>
+        <div class="policy-item">
+          <span class="policy-icon">✅</span>
+          <div>
+            <div class="policy-title">100% Authentic</div>
+            <div class="policy-desc">Distributor-guaranteed</div>
+          </div>
+        </div>
+        <div class="policy-item">
+          <span class="policy-icon">🔄</span>
+          <div>
+            <div class="policy-title">14-Day Returns</div>
+            <div class="policy-desc">No-questions policy</div>
+          </div>
+        </div>
+        <div class="policy-item">
+          <span class="policy-icon">🔐</span>
+          <div>
+            <div class="policy-title">Secure Payment</div>
+            <div class="policy-desc">256-bit SSL encryption</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -127,13 +156,14 @@
   <!-- Tabs -->
   <div class="tabs">
     <div class="tab-header">
-      <button class="tab-btn active" onclick="showTab('description', this)">Ürün Açıklaması</button>
-      <button class="tab-btn" onclick="showTab('reviews', this)">Değerlendirmeler ({{ product.review_count }})</button>
+      <button class="tab-btn active" onclick="showTab('description', this)">Product Description</button>
+      <button class="tab-btn" onclick="showTab('reviews', this)">Reviews ({{ product.review_count }})</button>
+      <button class="tab-btn" onclick="showTab('returns', this)">14-Day Return Policy</button>
     </div>
 
     <div class="tab-panel active" id="tab-description">
       <div style="color:var(--text-muted); line-height:1.8; max-width:720px;">
-        {{ product.description or 'Bu ürün için henüz açıklama eklenmemiş.' }}
+        {{ product.description or 'No description available for this product.' }}
       </div>
     </div>
 
@@ -142,8 +172,8 @@
       {% if reviews %}
       <div style="display:flex; flex-direction:column; gap:20px; max-width:720px;">
         {% for review in reviews %}
-        <div class="card" style="border-radius:var(--radius-md);">
-          <div class="card-body" style="padding:20px;">
+        <div class="card">
+          <div class="card-body" style="padding:18px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
               <strong>{{ review.user.username }}</strong>
               <span class="stars">{{ '★' * review.rating }}{{ '☆' * (5 - review.rating) }}</span>
@@ -158,17 +188,45 @@
       {% else %}
       <div class="empty-state" style="padding:40px;">
         <div class="empty-icon">⭐</div>
-        <h3>Henüz değerlendirme yok</h3>
-        <p>Bu ürünü satın aldıktan sonra ilk değerlendirmeyi siz yazın!</p>
+        <h3>No reviews yet</h3>
+        <p>Buy this product and be the first to leave a review!</p>
       </div>
       {% endif %}
+    </div>
+
+    <!-- Return Policy Tab -->
+    <div class="tab-panel" id="tab-returns">
+      <div class="return-policy-box">
+        <h3>🔄 14-Day Return Policy</h3>
+        <p>At FitMarket, customer satisfaction is our top priority. If you are not fully satisfied with your purchase, you may return any product within <strong>14 days</strong> of delivery, free of charge, no questions asked.</p>
+
+        <h4>How to Return</h4>
+        <ol>
+          <li>Contact our customer support within 14 days of receiving your order via <strong>info@fitmarket.com</strong> or <strong>+90 850 000 00 00</strong>.</li>
+          <li>Pack the product in its original, undamaged packaging.</li>
+          <li>Our courier will collect the package from your address at no additional cost.</li>
+          <li>Once we receive and inspect the returned item, your refund will be processed within <strong>3-5 business days</strong>.</li>
+        </ol>
+
+        <h4>Return Conditions</h4>
+        <ul>
+          <li>The product must be <strong>unused and unopened</strong> (seal intact).</li>
+          <li>The original packaging, labels, and accessories must be included.</li>
+          <li>Products that have been opened or partially consumed are not eligible for return.</li>
+          <li>Promotional or discounted items are eligible for return under the same conditions.</li>
+        </ul>
+
+        <div class="return-guarantee-banner">
+          🛡️ <strong>FitMarket Guarantee:</strong> If the product you received is damaged or incorrect, we will cover all return shipping costs and process your refund immediately — no documentation required.
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Related Products -->
   {% if related %}
-  <div style="margin-top:72px;">
-    <h2 class="section-title mb-4">Benzer <span>Ürünler</span></h2>
+  <div style="margin-top:56px;">
+    <h2 class="section-title mb-4">Related <span>Products</span></h2>
     <div class="products-grid">
       {% for product in related %}
       {% include 'partials/product_card.html' %}

@@ -1,39 +1,36 @@
 {% extends "base.html" %}
-{% block title %}Siparişlerim | FitMarket{% endblock %}
+{% block title %}My Orders | FitMarket{% endblock %}
 
 {% block content %}
 <div class="page-header">
   <div class="container">
-    <h1>📦 Siparişlerim</h1>
+    <h1>My Orders</h1>
   </div>
 </div>
 
 <div class="container section-sm">
   <div class="profile-layout">
+    <!-- Sidebar -->
     <div class="profile-sidebar">
-      <div class="profile-avatar">{{ (current_user.first_name or current_user.username)[0].upper() }}</div>
-      <h3 style="margin-bottom:4px;">{{ current_user.full_name }}</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem;">{{ current_user.email }}</p>
-      <div class="divider"></div>
-      <nav style="display:flex; flex-direction:column; gap:4px; text-align:left;">
-        <a href="{{ url_for('profile.profile') }}" class="admin-nav-item">👤 Profil Bilgileri</a>
-        <a href="{{ url_for('profile.orders') }}" class="admin-nav-item active">📦 Siparişlerim</a>
-        {% if current_user.is_admin %}
-        <a href="{{ url_for('admin.dashboard') }}" class="admin-nav-item">⚙️ Admin Panel</a>
-        {% endif %}
-        <a href="{{ url_for('auth.logout') }}" class="admin-nav-item" style="color:var(--danger);">🚪 Çıkış</a>
-      </nav>
+      <div class="profile-sidebar-heading">Account Menu</div>
+      <a href="{{ url_for('profile.profile') }}" class="profile-sidebar-link">👤 Profile Info</a>
+      <a href="{{ url_for('profile.orders') }}" class="profile-sidebar-link active">📦 My Orders</a>
+      {% if current_user.is_admin %}
+      <a href="{{ url_for('admin.dashboard') }}" class="profile-sidebar-link">⚙️ Admin Panel</a>
+      {% endif %}
+      <a href="{{ url_for('auth.logout') }}" class="profile-sidebar-link" style="color:var(--danger);">🚪 Sign Out</a>
     </div>
 
+    <!-- Content -->
     <div>
       {% if orders %}
-      <div style="display:flex; flex-direction:column; gap:20px;">
+      <div style="display:flex; flex-direction:column; gap:16px;">
         {% for order in orders %}
         <div class="card">
           <div class="card-body">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
               <div>
-                <strong>Sipariş #{{ order.id }}</strong>
+                <strong>Order #{{ order.id }}</strong>
                 <span style="color:var(--text-muted); font-size:0.85rem; margin-left:12px;">{{ order.created_at.strftime('%d.%m.%Y') }}</span>
               </div>
               <span class="badge badge-{{ order.status_label[1] }}">{{ order.status_label[0] }}</span>
@@ -46,7 +43,7 @@
             {% endfor %}
             <div class="divider" style="margin:12px 0;"></div>
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <strong>Toplam: <span style="color:var(--accent);">{{ "%.2f"|format(order.total_price) }}₺</span></strong>
+              <strong>Total: <span style="color:var(--primary);">{{ "%.2f"|format(order.total_price) }}₺</span></strong>
             </div>
           </div>
         </div>
@@ -55,8 +52,9 @@
       {% else %}
       <div class="empty-state">
         <div class="empty-icon">📦</div>
-        <h3>Henüz sipariş vermediniz</h3>
-        <a href="{{ url_for('products.list_products') }}" class="btn btn-accent mt-3">Alışverişe Başla</a>
+        <h3>No orders yet</h3>
+        <p>You haven't placed any orders yet.</p>
+        <a href="{{ url_for('products.list_products') }}" class="btn btn-primary mt-3">Start Shopping</a>
       </div>
       {% endif %}
     </div>

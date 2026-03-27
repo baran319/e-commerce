@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
 {% block title %}Dashboard | FitMarket Admin{% endblock %}
-{% block page_header %}Gösterge Paneli{% endblock %}
+{% block page_header %}Dashboard{% endblock %}
 
 {% block content %}
 <!-- Small boxes (Stat box) -->
@@ -10,12 +10,12 @@
         <div class="small-box bg-info">
             <div class="inner">
                 <h3>{{ stats.total_products }}</h3>
-                <p>Toplam Ürün</p>
+                <p>Total Products</p>
             </div>
             <div class="icon">
                 <i class="ion ion-bag"></i>
             </div>
-            <a href="{{ url_for('admin.products') }}" class="small-box-footer">Ürünlere Git <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ url_for('admin.products') }}" class="small-box-footer">View Products <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -24,12 +24,12 @@
         <div class="small-box bg-success">
             <div class="inner">
                 <h3>{{ stats.total_orders }}</h3>
-                <p>Toplam Sipariş</p>
+                <p>Total Orders</p>
             </div>
             <div class="icon">
                 <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="{{ url_for('admin.orders') }}" class="small-box-footer">Siparişlere Git <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ url_for('admin.orders') }}" class="small-box-footer">View Orders <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -38,12 +38,12 @@
         <div class="small-box bg-warning">
             <div class="inner">
                 <h3>{{ stats.total_users }}</h3>
-                <p>Kayıtlı Kullanıcı</p>
+                <p>Registered Users</p>
             </div>
             <div class="icon">
                 <i class="ion ion-person-add"></i>
             </div>
-            <a href="#" class="small-box-footer">Daha Fazla Bilgi <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="#" class="small-box-footer">More Info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -52,12 +52,12 @@
         <div class="small-box bg-danger">
             <div class="inner">
                 <h3>{{ stats.pending_orders }}</h3>
-                <p>Bekleyen Sipariş</p>
+                <p>Pending Orders</p>
             </div>
             <div class="icon">
                 <i class="ion ion-pie-graph"></i>
             </div>
-            <a href="{{ url_for('admin.orders') }}?status=pending" class="small-box-footer">İncele <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="{{ url_for('admin.orders') }}?status=pending" class="small-box-footer">Review <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -71,7 +71,7 @@
         <!-- Custom tabs (Charts with tabs)-->
         <div class="card">
             <div class="card-header border-transparent">
-                <h3 class="card-title">Son Siparişler</h3>
+                <h3 class="card-title">Recent Orders</h3>
 
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -85,12 +85,12 @@
                     <table class="table m-0">
                         <thead>
                         <tr>
-                            <th>Sipariş ID</th>
-                            <th>Müşteri</th>
-                            <th>Durum</th>
-                            <th>Tutar</th>
-                            <th>Tarih</th>
-                            <th>Hızlı Eylem</th>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Quick Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -123,7 +123,7 @@
                             {% endfor %}
                         {% else %}
                             <tr>
-                                <td colspan="6" class="text-center">Henüz sipariş yok</td>
+                                <td colspan="6" class="text-center">No orders yet</td>
                             </tr>
                         {% endif %}
                         </tbody>
@@ -133,7 +133,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer clearfix">
-                <a href="{{ url_for('admin.orders') }}" class="btn btn-sm btn-secondary float-right">Tüm Siparişleri Gör</a>
+                <a href="{{ url_for('admin.orders') }}" class="btn btn-sm btn-secondary float-right">View All Orders</a>
             </div>
             <!-- /.card-footer -->
         </div>

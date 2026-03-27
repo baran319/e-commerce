@@ -1,6 +1,6 @@
 {% extends "admin/base.html" %}
-{% block title %}Sipariş Yönetimi | FitMarket Admin{% endblock %}
-{% block page_header %}Sipariş Yönetimi{% endblock %}
+{% block title %}Order Management | FitMarket Admin{% endblock %}
+{% block page_header %}Order Management{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -8,11 +8,11 @@
         
         <div class="card card-outline card-primary mb-4">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-filter"></i> Filtreler</h3>
+                <h3 class="card-title"><i class="fas fa-filter"></i> Filters</h3>
             </div>
             <div class="card-body">
                 <div class="d-flex" style="gap:8px; flex-wrap:wrap;">
-                    {% set statuses = [('', 'Tümü'), ('pending', 'Beklemede'), ('processing', 'Hazırlanıyor'), ('shipped', 'Kargoda'), ('delivered', 'Teslim'), ('cancelled', 'İptal')] %}
+                    {% set statuses = [('', 'All'), ('pending', 'Pending'), ('processing', 'Processing'), ('shipped', 'Shipped'), ('delivered', 'Delivered'), ('cancelled', 'Cancelled')] %}
                     {% for val, label in statuses %}
                     <a href="{{ url_for('admin.orders', status=val) }}"
                        class="btn btn-sm {% if selected_status == val %}btn-primary{% else %}btn-default{% endif %}">{{ label }}</a>
@@ -23,20 +23,20 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Kayıtlı Siparişler</h3>
+                <h3 class="card-title">Registered Orders</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap table-bordered">
                     <thead>
                         <tr>
-                            <th>Sipariş Numarası</th>
-                            <th>Müşteri</th>
-                            <th>Teslimat Şehri</th>
-                            <th>Tutar</th>
-                            <th>Durum</th>
-                            <th>Sipariş Tarihi</th>
-                            <th>Durum Güncelle</th>
+                            <th>Order Number</th>
+                            <th>Customer</th>
+                            <th>Delivery City</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Order Date</th>
+                            <th>Update Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,7 +68,7 @@
                             {% endfor %}
                         {% else %}
                             <tr>
-                                <td colspan="7" class="text-center">Sipariş bulunamadı.</td>
+                                <td colspan="7" class="text-center">No orders found.</td>
                             </tr>
                         {% endif %}
                     </tbody>

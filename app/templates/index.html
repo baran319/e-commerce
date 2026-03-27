@@ -1,49 +1,34 @@
 {% extends "base.html" %}
-{% block title %}FitMarket | Türkiye'nin #1 Spor Takviyesi Mağazası{% endblock %}
-{% block meta_description %}FitMarket'te en kaliteli protein tozu, kreatin, pre-workout ve spor takviyelerini keşfedin.
-Hızlı teslimat, 100% orijinal ürün garantisi.{% endblock %}
+{% block title %}FitMarket | #1 Sports Supplement Store{% endblock %}
+{% block meta_description %}Discover the highest quality protein powder, creatine, pre-workout and sports supplements at FitMarket. Fast delivery, 100% original product guarantee.{% endblock %}
 
 {% block content %}
 
-<!-- ── HERO (PREMIUM E-COMMERCE BANNER) ────────────────────────── -->
-<section class="hero-premium">
-  <div class="hero-premium-bg"></div>
-  <div class="container hero-premium-container">
-    <div class="hero-premium-content">
-      <div class="hero-premium-badge">YENİ ÜRÜN</div>
-      <h1 class="hero-premium-title">
-        TITANIUM<br>
-        <span class="gradient-text">WHEY ISOLATE</span>
-      </h1>
-      <p class="hero-premium-subtitle">
-        Kas gelişimini hızlandır, rekorlarını altüst et. Sınırlı sayıda üretilen yeni nesil hidrolize whey protein ile
-        tanış. %100 saf, %100 performans.
-      </p>
-      <div class="hero-premium-price-box">
-        <div class="price-badge">LANSMANA ÖZEL</div>
-        <div class="price-values">
-          <span class="price-old">1.399 TL</span>
-          <span class="price-new">999 TL</span>
+<!-- ── HERO BANNER ─────────────────────────────────────────────── -->
+<section class="hero-banner">
+  <div class="container">
+    <div class="hero-banner-inner">
+      <div class="hero-banner-content">
+        <div class="hero-badge">New Arrival</div>
+        <h1 class="hero-title">TITANIUM<br><span>WHEY ISOLATE</span></h1>
+        <p class="hero-subtitle">
+          Accelerate muscle growth and push your performance to the next level. 100% hydrolyzed whey protein — pure, effective, designed for athletes.
+        </p>
+        <div class="hero-price-row">
+          <span class="hero-price-old">1.399 ₺</span>
+          <span class="hero-price-new">999 ₺</span>
         </div>
+        <a href="{{ url_for('products.list_products') }}" class="btn btn-primary btn-lg">Explore Products</a>
       </div>
-      <div class="hero-actions" style="margin-top: 24px;">
-        <a href="{{ url_for('products.list_products') }}" class="btn btn-warning btn-lg hero-cta-btn">
-          FIRSATI KAÇIRMA
-        </a>
-      </div>
-    </div>
 
-    <div class="hero-premium-visual">
-      <div class="hero-jar-showcase">
-        <!-- Premium CSS Product Jar Mockup -->
-        <div class="jar-lid"></div>
-        <div class="jar-body">
-          <div class="jar-label">
-            <div class="jar-brand">FitMarket</div>
-            <div class="jar-name">TITANIUM</div>
-            <div class="jar-desc">100% WHEY ISOLATE</div>
-            <div class="jar-flavour">CHOCOLATE FLAVOUR</div>
-            <div class="jar-weight">2000G / 66 SERVINGS</div>
+      <div class="hero-banner-visual">
+        <div class="hero-can-mockup">
+          <div class="hero-can-label">
+            <div class="hero-can-brand">FITMARKET</div>
+            <div class="hero-can-name">TITANIUM</div>
+            <div class="hero-can-desc">100% WHEY ISOLATE</div>
+            <div class="hero-can-flavour">CHOCOLATE</div>
+            <div class="hero-can-weight">2000G / 66 SERVINGS</div>
           </div>
         </div>
       </div>
@@ -51,36 +36,80 @@ Hızlı teslimat, 100% orijinal ürün garantisi.{% endblock %}
   </div>
 </section>
 
-<!-- ── STATS ─────────────────────────────────────────────────────── -->
+<!-- ── FEATURES BAR ────────────────────────────────────────────── -->
+<div class="features-bar">
+  <div class="container">
+    <div class="features-bar-inner">
+      <div class="feature-item">
+        <span class="feature-icon">🚚</span>
+        <div class="feature-text">
+          <strong>Fast Shipping</strong>
+          <span>3-5 business day delivery</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">✅</span>
+        <div class="feature-text">
+          <strong>100% Original</strong>
+          <span>Distributor-guaranteed products</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🔄</span>
+        <div class="feature-text">
+          <strong>14-Day Returns</strong>
+          <span>No-questions return policy</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">💳</span>
+        <div class="feature-text">
+          <strong>Secure Payment</strong>
+          <span>SSL-encrypted checkout</span>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🤝</span>
+        <div class="feature-text">
+          <strong>Expert Support</strong>
+          <span>Free nutrition consulting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── STATS ───────────────────────────────────────────────────── -->
 <section class="stats-strip">
   <div class="container">
     <div class="stats-grid">
       <div>
-        <div class="stat-number" data-target="50000">0</div>
-        <div class="stat-label">Mutlu Sporcu</div>
+        <div class="stat-number">50,000+</div>
+        <div class="stat-label">Happy Athletes</div>
       </div>
       <div>
-        <div class="stat-number" data-target="500">0</div>
-        <div class="stat-label">Farklı Ürün</div>
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Products</div>
       </div>
       <div>
-        <div class="stat-number" data-target="30">0</div>
-        <div class="stat-label">Premium Marka</div>
+        <div class="stat-number">30+</div>
+        <div class="stat-label">Premium Brands</div>
       </div>
       <div>
-        <div class="stat-number" data-target="99">0</div>
-        <div class="stat-label">Müşteri Memnuniyeti %</div>
+        <div class="stat-number">99%</div>
+        <div class="stat-label">Customer Satisfaction</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── CATEGORIES ──────────────────────────────────────────────────── -->
-<section class="section">
+<!-- ── CATEGORIES ──────────────────────────────────────────────── -->
+{% if categories %}
+<section class="section" style="padding-bottom: 0;">
   <div class="container">
-    <div class="text-center mb-4">
-      <h2 class="section-title">Kategorileri <span>Keşfet</span></h2>
-      <p class="section-subtitle">İhtiyacın olan her şey tek çatı altında</p>
+    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:18px;">
+      <h2 class="section-title">Categories</h2>
+      <a href="{{ url_for('products.list_products') }}" style="font-size:0.84rem; color:var(--primary);">All Products →</a>
     </div>
     <div class="categories-grid">
       {% for cat in categories %}
@@ -92,18 +121,15 @@ Hızlı teslimat, 100% orijinal ürün garantisi.{% endblock %}
     </div>
   </div>
 </section>
+{% endif %}
 
-<!-- ── FEATURED PRODUCTS ───────────────────────────────────────────── -->
+<!-- ── FEATURED PRODUCTS ───────────────────────────────────────── -->
 {% if featured_products %}
-<section class="section" style="padding-top: 0;">
+<section class="section">
   <div class="container">
-    <div
-      style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; flex-wrap:wrap; gap:16px;">
-      <div>
-        <h2 class="section-title" style="margin-bottom:4px;">Öne Çıkan <span>Ürünler</span></h2>
-        <p style="color:var(--text-muted);">Sporcuların en çok tercih ettiği takviyeler</p>
-      </div>
-      <a href="{{ url_for('products.list_products') }}" class="btn btn-outline">Tümünü Gör →</a>
+    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:18px;">
+      <h2 class="section-title">Featured Products</h2>
+      <a href="{{ url_for('products.list_products') }}" style="font-size:0.84rem; color:var(--primary);">View All →</a>
     </div>
     <div class="products-grid">
       {% for product in featured_products %}
@@ -114,55 +140,33 @@ Hızlı teslimat, 100% orijinal ürün garantisi.{% endblock %}
 </section>
 {% endif %}
 
-<!-- ── PROMO BANNER ─────────────────────────────────────────────────── -->
-<section class="section" style="padding-top: 0;">
+<!-- ── PROMO BANNER ────────────────────────────────────────────── -->
+<section style="padding: 0 0 32px;">
   <div class="container">
-    <div style="
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--surface-3) 100%);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 64px 48px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 32px;
-      overflow: hidden;
-      position: relative;
-    ">
-      <div
-        style="position:absolute; right:-100px; top:-100px; width:400px; height:400px; border-radius:50%; background:rgba(0,229,255,0.05); pointer-events:none;">
-      </div>
+    <div class="promo-banner">
       <div>
-        <div
-          style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,170,0,0.15); border:1px solid rgba(255,170,0,0.3); padding:6px 16px; border-radius:50px; font-size:0.8rem; color:var(--warning); font-weight:600; margin-bottom:16px;">
-          🔥 Sınırlı Süre
+        <div class="promo-banner-text">
+          Free Shipping on Orders Over 500 ₺
+          <span>+ 10% discount campaign</span>
         </div>
-        <h2 style="font-size:clamp(1.6rem,3vw,2.4rem); font-weight:900; margin-bottom:10px;">
-          500₺ Üzeri Alışverişte<br>
-          <span style="color:var(--accent);">Ücretsiz Kargo + %10 İndirim</span>
-        </h2>
-        <p style="color:var(--text-muted);">Kod: <strong
-            style="color:var(--warning); font-family:monospace; font-size:1.1rem;">FITMARKET10</strong></p>
+        <div style="margin-top: 6px; font-size: 0.9rem;">
+          Use code: <span class="promo-code">FITMARKET10</span>
+        </div>
       </div>
-      <a href="{{ url_for('products.list_products') }}" class="btn btn-accent btn-lg"
-        style="white-space:nowrap; flex-shrink:0;">
-        Hemen Alışveriş Yap
+      <a href="{{ url_for('products.list_products') }}" class="btn btn-outline" style="background:#fff; color:#333; flex-shrink:0; border-color:#fff;">
+        Shop Now
       </a>
     </div>
   </div>
 </section>
 
-<!-- ── BESTSELLERS ──────────────────────────────────────────────────── -->
+<!-- ── BESTSELLERS ─────────────────────────────────────────────── -->
 {% if bestsellers %}
 <section class="section" style="padding-top: 0;">
   <div class="container">
-    <div
-      style="display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; flex-wrap:wrap; gap:16px;">
-      <div>
-        <h2 class="section-title" style="margin-bottom:4px;">En Çok <span>Satanlar</span></h2>
-        <p style="color:var(--text-muted);">Binlerce sporcunun güveni</p>
-      </div>
-      <a href="{{ url_for('products.list_products') }}" class="btn btn-outline">Tümünü Gör →</a>
+    <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:18px;">
+      <h2 class="section-title">Best Sellers</h2>
+      <a href="{{ url_for('products.list_products') }}" style="font-size:0.84rem; color:var(--primary);">View All →</a>
     </div>
     <div class="products-grid">
       {% for product in bestsellers %}
@@ -173,71 +177,28 @@ Hızlı teslimat, 100% orijinal ürün garantisi.{% endblock %}
 </section>
 {% endif %}
 
-<!-- ── WHY US ───────────────────────────────────────────────────────── -->
-<section class="section" style="padding-top: 0;">
+<!-- ── WHY US ──────────────────────────────────────────────────── -->
+<section class="section" style="background: var(--surface-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
   <div class="container">
-    <div class="text-center mb-4">
-      <h2 class="section-title">Neden <span>FitMarket?</span></h2>
-    </div>
-    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:24px;">
+    <h2 class="section-title" style="margin-bottom: 24px;">Why FitMarket?</h2>
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:16px;">
       {% set features = [
-      ('🏆', 'Orijinal Ürün Garantisi', 'Tüm ürünlerimiz resmi distribütörlerden temin edilir.'),
-      ('🚚', 'Hızlı Kargo', '3-5 iş günü içinde kapınıza teslim.'),
-      ('💳', 'Güvenli Ödeme', '256-bit SSL şifreleme ile güvenli ödeme.'),
-      ('🤝', 'Uzman Destek', 'Spor beslenme uzmanlarından ücretsiz danışmanlık.'),
-      ('🔄', '14 Gün İade', 'Memnun kalmadıysanız iade garantisi.'),
-      ('🎁', 'Sadakat Puanı', 'Her alışverişte puan kazan, indirimle harca.'),
+        ('🏆', 'Original Product Guarantee', 'All products sourced from official distributors.'),
+        ('🚚', 'Fast Delivery', 'Delivered to your door within 3-5 business days.'),
+        ('💳', 'Secure Payment', 'Protected checkout with 256-bit SSL encryption.'),
+        ('🤝', 'Expert Support', 'Free sports nutrition consulting from professionals.'),
+        ('🔄', '14-Day Returns', 'Not satisfied? We\'ll take it back, no questions asked.'),
+        ('🎁', 'Loyalty Points', 'Earn points on every purchase and redeem for discounts.'),
       ] %}
       {% for icon, title, desc in features %}
-      <div class="card card-glass" style="padding: 28px 24px; text-align:center;">
-        <div style="font-size: 2.5rem; margin-bottom:12px;">{{ icon }}</div>
-        <h4 style="font-size:1rem; margin-bottom:8px;">{{ title }}</h4>
-        <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.6;">{{ desc }}</p>
+      <div style="background:var(--bg-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:20px 16px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px;">
+        <div style="font-size: 2rem;">{{ icon }}</div>
+        <h4 style="font-size:0.93rem; font-weight:700; margin: 0;">{{ title }}</h4>
+        <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.5; margin: 0;">{{ desc }}</p>
       </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
-{% endblock %}
-
-{% block extra_scripts %}
-<script>
-  // Particle animation (only if container exists)
-  const container = document.getElementById('particles');
-  if (container) {
-    for (let i = 0; i < 25; i++) {
-      const p = document.createElement('div');
-      p.classList.add('hero-particle');
-      p.style.cssText = `
-      left: ${Math.random() * 100}%;
-      animation-duration: ${4 + Math.random() * 8}s;
-      animation-delay: ${Math.random() * 8}s;
-      width: ${1 + Math.random() * 3}px;
-      height: ${1 + Math.random() * 3}px;
-      opacity: ${0.2 + Math.random() * 0.5};
-    `;
-      container.appendChild(p);
-    }
-  }
-
-  // Counter animation
-  function animateCounters() {
-    document.querySelectorAll('.stat-number[data-target]').forEach(el => {
-      const target = parseInt(el.dataset.target);
-      let current = 0;
-      const step = target / 60;
-      const interval = setInterval(() => {
-        current += step;
-        if (current >= target) { current = target; clearInterval(interval); }
-        el.textContent = Math.floor(current).toLocaleString('tr');
-      }, 25);
-    });
-  }
-  const statsSection = document.querySelector('.stats-strip');
-  const observer = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting) { animateCounters(); observer.disconnect(); }
-  }, { threshold: 0.3 });
-  if (statsSection) observer.observe(statsSection);
-</script>
 {% endblock %}

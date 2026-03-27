@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Profilim | FitMarket{% endblock %}
+{% block title %}My Account | FitMarket{% endblock %}
 
 {% block content %}
 <div class="page-header">
   <div class="container">
-    <h1>👤 Hesabım</h1>
+    <h1>My Account</h1>
   </div>
 </div>
 
@@ -12,49 +12,53 @@
   <div class="profile-layout">
     <!-- Sidebar -->
     <div class="profile-sidebar">
-      <div class="profile-avatar">{{ (current_user.first_name or current_user.username)[0].upper() }}</div>
-      <h3 style="margin-bottom:4px;">{{ current_user.full_name }}</h3>
-      <p style="color:var(--text-muted); font-size:0.85rem;">{{ current_user.email }}</p>
+      <div class="profile-sidebar-heading">Account Menu</div>
+      <a href="{{ url_for('profile.profile') }}" class="profile-sidebar-link active">👤 Profile Info</a>
+      <a href="{{ url_for('profile.orders') }}" class="profile-sidebar-link">📦 My Orders</a>
       {% if current_user.is_admin %}
-      <span class="badge badge-warning" style="margin-top:8px;">Admin</span>
+      <a href="{{ url_for('admin.dashboard') }}" class="profile-sidebar-link">⚙️ Admin Panel</a>
       {% endif %}
-      <div class="divider"></div>
-      <nav style="display:flex; flex-direction:column; gap:4px; text-align:left;">
-        <a href="{{ url_for('profile.profile') }}" class="admin-nav-item active">👤 Profil Bilgileri</a>
-        <a href="{{ url_for('profile.orders') }}" class="admin-nav-item">📦 Siparişlerim</a>
-        {% if current_user.is_admin %}
-        <a href="{{ url_for('admin.dashboard') }}" class="admin-nav-item">⚙️ Admin Panel</a>
-        {% endif %}
-        <a href="{{ url_for('auth.logout') }}" class="admin-nav-item" style="color:var(--danger);">🚪 Çıkış</a>
-      </nav>
+      <a href="{{ url_for('auth.logout') }}" class="profile-sidebar-link" style="color:var(--danger);">🚪 Sign Out</a>
     </div>
 
     <!-- Content -->
     <div>
       <div class="card">
         <div class="card-body">
-          <h3 style="margin-bottom:24px;">Profil Bilgilerini Düzenle</h3>
+          <div style="display:flex; align-items:center; gap:16px; margin-bottom:24px; padding-bottom:20px; border-bottom:1px solid var(--border);">
+            <div style="width:56px; height:56px; border-radius:50%; background:var(--primary); display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:700; color:#fff; flex-shrink:0;">
+              {{ (current_user.first_name or current_user.username)[0].upper() }}
+            </div>
+            <div>
+              <div style="font-weight:700; font-size:1.05rem;">{{ current_user.full_name }}</div>
+              <div style="color:var(--text-muted); font-size:0.88rem;">{{ current_user.email }}</div>
+              {% if current_user.is_admin %}
+              <span class="badge badge-warning" style="margin-top:4px;">Admin</span>
+              {% endif %}
+            </div>
+          </div>
+          <h3 style="font-size:1rem; margin-bottom:20px;">Edit Profile Information</h3>
           <form method="post" action="{{ url_for('profile.update') }}">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <div class="form-row">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
               <div class="form-group">
-                <label class="form-label">Ad</label>
+                <label class="form-label">First Name</label>
                 <input type="text" name="first_name" class="form-control" value="{{ current_user.first_name or '' }}">
               </div>
               <div class="form-group">
-                <label class="form-label">Soyad</label>
+                <label class="form-label">Last Name</label>
                 <input type="text" name="last_name" class="form-control" value="{{ current_user.last_name or '' }}">
               </div>
             </div>
             <div class="form-group">
-              <label class="form-label">Telefon</label>
-              <input type="tel" name="phone" class="form-control" value="{{ current_user.phone or '' }}" placeholder="05XX XXX XX XX">
+              <label class="form-label">Phone</label>
+              <input type="tel" name="phone" class="form-control" value="{{ current_user.phone or '' }}" placeholder="+1 555 000 0000">
             </div>
             <div class="form-group">
-              <label class="form-label">Adres</label>
-              <textarea name="address" class="form-control" rows="3" placeholder="Ev adresiniz">{{ current_user.address or '' }}</textarea>
+              <label class="form-label">Address</label>
+              <textarea name="address" class="form-control" rows="3" placeholder="Your home address">{{ current_user.address or '' }}</textarea>
             </div>
-            <button type="submit" class="btn btn-primary">💾 Kaydet</button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
           </form>
         </div>
       </div>

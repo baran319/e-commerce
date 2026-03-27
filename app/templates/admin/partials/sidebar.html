@@ -15,7 +15,7 @@
                 <li class="nav-item">
                     <a href="{{ url_for('admin.dashboard') }}" class="nav-link {{ 'active' if request.endpoint == 'admin.dashboard' else '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Gösterge Paneli</p>
+                        <p>Dashboard</p>
                     </a>
                 </li>
 
@@ -23,7 +23,7 @@
                 <li class="nav-item">
                     <a href="{{ url_for('admin.products') }}" class="nav-link {{ 'active' if 'products' in request.endpoint else '' }}">
                         <i class="nav-icon fas fa-box"></i>
-                        <p>Ürünler</p>
+                        <p>Products</p>
                     </a>
                 </li>
 
@@ -31,7 +31,7 @@
                 <li class="nav-item">
                     <a href="{{ url_for('admin.orders') }}" class="nav-link {{ 'active' if 'orders' in request.endpoint else '' }}">
                         <i class="nav-icon fas fa-shopping-cart"></i>
-                        <p>Siparişler</p>
+                        <p>Orders</p>
                     </a>
                 </li>
                 

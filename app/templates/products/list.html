@@ -1,19 +1,19 @@
 {% extends "base.html" %}
-{% block title %}Ürünler{% if selected_category %} — {{ selected_category.name }}{% endif %} | FitMarket{% endblock %}
+{% block title %}Products{% if selected_category %} — {{ selected_category.name }}{% endif %} | FitMarket{% endblock %}
 
 {% block content %}
 <div class="page-header">
   <div class="container">
-    <h1>{% if search_query %}🔍 "{{ search_query }}" Arama Sonuçları{% elif selected_category %}{{ selected_category.icon }} {{ selected_category.name }}{% else %}🛍️ Tüm Ürünler{% endif %}</h1>
+    <h1>{% if search_query %}"{{ search_query }}" Search Results{% elif selected_category %}{{ selected_category.icon }} {{ selected_category.name }}{% else %}All Products{% endif %}</h1>
     <div class="breadcrumb">
-      <a href="{{ url_for('main.index') }}">Ana Sayfa</a>
+      <a href="{{ url_for('main.index') }}">Home</a>
       <span class="breadcrumb-sep">›</span>
       {% if selected_category %}
-      <a href="{{ url_for('products.list_products') }}">Ürünler</a>
+      <a href="{{ url_for('products.list_products') }}">Products</a>
       <span class="breadcrumb-sep">›</span>
       <span>{{ selected_category.name }}</span>
       {% else %}
-      <span>Ürünler</span>
+      <span>Products</span>
       {% endif %}
     </div>
   </div>
@@ -23,13 +23,14 @@
   <div class="shop-layout">
     <!-- Sidebar -->
     <aside class="shop-sidebar">
+      <div class="sidebar-heading">Filters</div>
       <form id="filterForm" method="get" action="{{ url_for('products.list_products') }}">
         {% if search_query %}<input type="hidden" name="q" value="{{ search_query }}">{% endif %}
 
         <div class="sidebar-section">
-          <p class="sidebar-title">Kategoriler</p>
+          <p class="sidebar-title">Categories</p>
           <a href="{{ url_for('products.list_products', q=search_query) }}" class="sidebar-link {% if not selected_category %}active{% endif %}">
-            Tümü <span class="cat-count">{{ pagination.total }}</span>
+            All <span class="cat-count">{{ pagination.total }}</span>
           </a>
           {% for cat in categories %}
           <a href="{{ url_for('products.list_products', category=cat.slug, q=search_query) }}"
@@ -42,18 +43,18 @@
         {% if selected_category %}<input type="hidden" name="category" value="{{ selected_category.slug }}">{% endif %}
 
         <div class="sidebar-section">
-          <p class="sidebar-title">Fiyat Aralığı</p>
+          <p class="sidebar-title">Price Range</p>
           <div class="price-range-inputs">
-            <input type="number" name="min_price" placeholder="Min ₺" value="{{ min_price if min_price else '' }}" style="width:80px;">
+            <input type="number" name="min_price" placeholder="Min" value="{{ min_price if min_price else '' }}">
             <span style="color:var(--text-muted);">—</span>
-            <input type="number" name="max_price" placeholder="Max ₺" value="{{ max_price if max_price < 9999 else '' }}" style="width:80px;">
+            <input type="number" name="max_price" placeholder="Max" value="{{ max_price if max_price < 9999 else '' }}">
           </div>
-          <button type="submit" class="btn btn-primary btn-sm w-full mt-2" style="margin-top:12px;">Filtrele</button>
+          <button type="submit" class="btn btn-primary btn-sm w-full" style="margin-top:10px;">Apply Filter</button>
         </div>
 
         {% if brands %}
         <div class="sidebar-section">
-          <p class="sidebar-title">Marka</p>
+          <p class="sidebar-title">Brand</p>
           {% for b in brands %}
           <a href="{{ url_for('products.list_products', brand=b, category=selected_category.slug if selected_category else '') }}"
              class="sidebar-link {% if selected_brand == b %}active{% endif %}">
@@ -68,13 +69,13 @@
     <!-- Main -->
     <div class="shop-main">
       <div class="shop-toolbar">
-        <span class="shop-results"><strong>{{ pagination.total }}</strong> ürün bulundu</span>
+        <span class="shop-results"><strong>{{ pagination.total }}</strong> products found</span>
         <select class="sort-select" onchange="window.location.href=this.value">
           {% set base = url_for('products.list_products', category=selected_category.slug if selected_category else '', q=search_query, brand=selected_brand) %}
-          <option value="{{ base }}&sort=newest" {% if sort == 'newest' %}selected{% endif %}>En Yeni</option>
-          <option value="{{ base }}&sort=price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Fiyat: Düşük → Yüksek</option>
-          <option value="{{ base }}&sort=price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Fiyat: Yüksek → Düşük</option>
-          <option value="{{ base }}&sort=name" {% if sort == 'name' %}selected{% endif %}>Alfabetik</option>
+          <option value="{{ base }}&sort=newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+          <option value="{{ base }}&sort=price_asc" {% if sort == 'price_asc' %}selected{% endif %}>Price: Low → High</option>
+          <option value="{{ base }}&sort=price_desc" {% if sort == 'price_desc' %}selected{% endif %}>Price: High → Low</option>
+          <option value="{{ base }}&sort=name" {% if sort == 'name' %}selected{% endif %}>Alphabetical</option>
         </select>
       </div>
 
@@ -108,9 +109,9 @@
       {% else %}
       <div class="empty-state">
         <div class="empty-icon">🔍</div>
-        <h3>Ürün bulunamadı</h3>
-        <p>Arama kriterlerinizi değiştirerek tekrar deneyin.</p>
-        <a href="{{ url_for('products.list_products') }}" class="btn btn-primary mt-3">Tüm Ürünleri Gör</a>
+        <h3>No products found</h3>
+        <p>Try adjusting your search or filters.</p>
+        <a href="{{ url_for('products.list_products') }}" class="btn btn-primary mt-3">View All Products</a>
       </div>
       {% endif %}
     </div>

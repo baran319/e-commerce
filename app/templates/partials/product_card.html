@@ -1,6 +1,6 @@
 {% set badge_class = {'NEW': 'badge-new', 'SALE': 'badge-sale', 'BESTSELLER': 'badge-best'} %}
 <article class="product-card">
-  <div class="product-card-image">
+  <a href="{{ url_for('products.product_detail', slug=product.slug) }}" class="product-card-image" style="display:block; text-decoration:none;">
     {% if product.image_url %}
     <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
     {% else %}
@@ -11,20 +11,17 @@
       <span class="badge {{ badge_class.get(product.badge, 'badge-info') }}">{{ product.badge }}</span>
     </div>
     {% endif %}
-    <div class="product-card-overlay">
-      <a href="{{ url_for('products.product_detail', slug=product.slug) }}" class="btn btn-accent btn-sm">Hızlı Bak</a>
-    </div>
-  </div>
+  </a>
   <div class="product-card-body">
     <div class="product-card-category">{{ product.category.name }}</div>
-    <a href="{{ url_for('products.product_detail', slug=product.slug) }}" class="product-card-name" style="color: inherit; display: block;">
+    <a href="{{ url_for('products.product_detail', slug=product.slug) }}" class="product-card-name" style="display:block; text-decoration:none;">
       {{ product.name }}
     </a>
     <div class="product-card-brand">{{ product.brand }}</div>
     {% if product.review_count > 0 %}
     <div class="product-card-stars">
       <span class="stars">{{ '★' * product.avg_rating|int }}{{ '☆' * (5 - product.avg_rating|int) }}</span>
-      <span style="color:var(--text-muted); font-size:0.8rem; margin-left:4px;">({{ product.review_count }})</span>
+      <span style="color:var(--text-muted); font-size:0.78rem; margin-left:4px;">({{ product.review_count }})</span>
     </div>
     {% endif %}
     <div class="product-card-footer">
@@ -39,11 +36,11 @@
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="hidden" name="quantity" value="1">
         <button type="submit" class="btn btn-primary btn-sm" {% if product.stock == 0 %}disabled{% endif %}>
-          {% if product.stock > 0 %}🛒{% else %}Tükendi{% endif %}
+          {% if product.stock > 0 %}Add to Cart{% else %}Sold Out{% endif %}
         </button>
       </form>
       {% else %}
-      <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-sm">🛒</a>
+      <a href="{{ url_for('auth.login') }}" class="btn btn-outline btn-sm">Add to Cart</a>
       {% endif %}
     </div>
   </div>

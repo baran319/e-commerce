@@ -1,14 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Sepetim | FitMarket{% endblock %}
+{% block title %}My Cart | FitMarket{% endblock %}
 
 {% block content %}
 <div class="page-header">
   <div class="container">
-    <h1>🛒 Alışveriş Sepetim</h1>
+    <h1>Shopping Cart</h1>
     <div class="breadcrumb">
-      <a href="{{ url_for('main.index') }}">Ana Sayfa</a>
+      <a href="{{ url_for('main.index') }}">Home</a>
       <span class="breadcrumb-sep">›</span>
-      <span>Sepetim</span>
+      <span>My Cart</span>
     </div>
   </div>
 </div>
@@ -18,13 +18,13 @@
   <div class="cart-layout">
     <!-- Cart Items -->
     <div>
-      <div class="card" style="border-radius: var(--radius-lg); overflow: hidden;">
-        <div style="padding: 20px 24px; border-bottom: 1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
-          <h3 style="font-size:1rem;">{{ items|length }} ürün</h3>
+      <div class="card" style="overflow: hidden;">
+        <div style="padding: 14px 20px; border-bottom: 1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:1rem;">{{ items|length }} item{% if items|length != 1 %}s{% endif %}</h3>
           <form action="{{ url_for('cart.clear_cart') }}" method="post" style="margin:0;">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <button type="submit" class="btn btn-outline btn-sm" style="border-color:var(--danger); color:var(--danger);" onclick="return confirm('Sepet temizlensin mi?')">
-              🗑️ Sepeti Temizle
+            <button type="submit" class="btn btn-outline btn-sm" style="border-color:var(--danger); color:var(--danger);" onclick="return confirm('Clear your entire cart?')">
+              🗑️ Clear Cart
             </button>
           </form>
         </div>
@@ -45,9 +45,9 @@
               <form action="{{ url_for('cart.update_cart') }}" method="post" id="updateForm{{ item.id }}" style="display:contents;">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="item_id" value="{{ item.id }}">
-                <button type="button" class="qty-btn" onclick="updateQty({{ item.id }}, -1)">−</button>
-                <input type="number" name="quantity" id="qty{{ item.id }}" class="qty-input" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" onchange="submitUpdate({{ item.id }})">
-                <button type="button" class="qty-btn" onclick="updateQty({{ item.id }}, 1)">+</button>
+                <button type="button" class="qty-btn" onclick="updateQty('{{ item.id }}', -1)">−</button>
+                <input type="number" name="quantity" id="qty{{ item.id }}" class="qty-input" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" onchange="submitUpdate('{{ item.id }}')">
+                <button type="button" class="qty-btn" onclick="updateQty('{{ item.id }}', 1)">+</button>
               </form>
             </div>
           </div>
@@ -55,7 +55,7 @@
             <div class="cart-item-price" id="itemPrice{{ item.id }}">{{ "%.2f"|format(item.subtotal) }}₺</div>
             <form action="{{ url_for('cart.remove_from_cart', item_id=item.id) }}" method="post" style="margin-top:8px;">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-              <button type="submit" class="btn btn-sm" style="background:none; border:none; color:var(--danger); font-size:0.85rem; padding:4px 8px;">× Kaldır</button>
+              <button type="submit" class="btn btn-sm" style="background:none; border:none; color:var(--danger); font-size:0.85rem; padding:4px 8px;">× Remove</button>
             </form>
           </div>
         </div>
@@ -63,41 +63,41 @@
       </div>
 
       <div style="margin-top: 16px;">
-        <a href="{{ url_for('products.list_products') }}" class="btn btn-outline">← Alışverişe Devam Et</a>
+        <a href="{{ url_for('products.list_products') }}" class="btn btn-outline">← Continue Shopping</a>
       </div>
     </div>
 
     <!-- Summary -->
     <div>
       <div class="order-summary-card">
-        <h3 style="font-size:1.1rem; margin-bottom:20px;">Sipariş Özeti</h3>
+        <h3>Order Summary</h3>
 
         <div class="summary-row">
-          <span>Ara Toplam</span>
+          <span>Subtotal</span>
           <span id="cartTotal">{{ "%.2f"|format(total) }}₺</span>
         </div>
         <div class="summary-row">
-          <span>Kargo</span>
-          <span style="color:var(--success);">{{ "Ücretsiz" if total >= 500 else "29,90₺" }}</span>
+          <span>Shipping</span>
+          <span style="color:var(--success);">{{ "Free" if total >= 500 else "29.90₺" }}</span>
         </div>
         {% if total < 500 %}
         <div class="free-shipping-banner">
-          🚚 <strong>{{ "%.2f"|format(500 - total) }}₺</strong> daha ekleyin, <strong>ücretsiz kargo</strong> kazanın!
+          🚚 Add <strong>{{ "%.2f"|format(500 - total) }}₺</strong> more for <strong>free shipping</strong>!
         </div>
         {% else %}
         <div class="free-shipping-banner">
-          🎉 Tebrikler! Ücretsiz kargo hakkı kazandınız.
+          🎉 Congratulations! You've earned free shipping.
         </div>
         {% endif %}
         <div class="summary-row total">
-          <span>Toplam</span>
+          <span>Total</span>
           <span class="amount">{{ "%.2f"|format(total + (0 if total >= 500 else 29.90)) }}₺</span>
         </div>
-        <a href="{{ url_for('checkout.checkout') }}" class="btn btn-accent btn-lg btn-full" style="margin-top:20px;">
-          🔒 Ödemeye Geç
+        <a href="{{ url_for('checkout.checkout') }}" class="btn btn-primary btn-lg btn-full" style="margin-top:16px;">
+          Proceed to Checkout
         </a>
-        <div style="text-align:center; margin-top:12px; font-size:0.8rem; color:var(--text-muted);">
-          🔐 SSL ile güvenli ödeme
+        <div style="text-align:center; margin-top:10px; font-size:0.8rem; color:var(--text-muted);">
+          🔐 Secured by SSL encryption
         </div>
       </div>
     </div>
@@ -106,9 +106,9 @@
   {% else %}
   <div class="empty-state">
     <div class="empty-icon">🛒</div>
-    <h3>Sepetiniz boş</h3>
-    <p>Harika ürünlerimizi keşfetmeye ne dersiniz?</p>
-    <a href="{{ url_for('products.list_products') }}" class="btn btn-accent mt-3">Alışverişe Başla</a>
+    <h3>Your cart is empty</h3>
+    <p>Discover our amazing products and start shopping!</p>
+    <a href="{{ url_for('products.list_products') }}" class="btn btn-primary mt-3">Start Shopping</a>
   </div>
   {% endif %}
 </div>
