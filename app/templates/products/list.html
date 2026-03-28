@@ -90,18 +90,18 @@
       {% if pagination.pages > 1 %}
       <div class="pagination">
         {% if pagination.has_prev %}
-        <a href="{{ request.url | replace('page=' ~ pagination.page, 'page=' ~ (pagination.page - 1)) if 'page=' in request.url else request.url ~ '&page=' ~ (pagination.page-1) }}" class="page-link">‹</a>
+        <a href="{{ url_for('products.list_products', page=pagination.page-1, category=selected_category.slug if selected_category else '', brand=selected_brand, sort=sort, q=search_query, min_price=min_price if min_price else '', max_price=max_price if max_price < 9999 else '') }}" class="page-link">‹</a>
         {% endif %}
         {% for p in pagination.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
           {% if p %}
-          <a href="{{ request.url | replace('page=' ~ pagination.page, 'page=' ~ p) if 'page=' in request.url else request.url ~ '&page=' ~ p }}"
+          <a href="{{ url_for('products.list_products', page=p, category=selected_category.slug if selected_category else '', brand=selected_brand, sort=sort, q=search_query, min_price=min_price if min_price else '', max_price=max_price if max_price < 9999 else '') }}"
              class="page-link {% if p == pagination.page %}active{% endif %}">{{ p }}</a>
           {% else %}
           <span class="page-link" style="cursor:default;">…</span>
           {% endif %}
         {% endfor %}
         {% if pagination.has_next %}
-        <a href="{{ request.url | replace('page=' ~ pagination.page, 'page=' ~ (pagination.page + 1)) if 'page=' in request.url else request.url ~ '&page=' ~ (pagination.page+1) }}" class="page-link">›</a>
+        <a href="{{ url_for('products.list_products', page=pagination.page+1, category=selected_category.slug if selected_category else '', brand=selected_brand, sort=sort, q=search_query, min_price=min_price if min_price else '', max_price=max_price if max_price < 9999 else '') }}" class="page-link">›</a>
         {% endif %}
       </div>
       {% endif %}
